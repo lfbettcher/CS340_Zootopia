@@ -1,0 +1,22 @@
+<h3>Add new animal:</h3>
+<form id="addAnimal" action="/add_new_Animal" method="post">
+    <label for="type">Type: </label>
+    <select name="type" id="type">
+        <option value="Lion">Lion</option>
+        <option value="Zebra">Zebra</option>
+        <option value="Giraffe">Giraffe</option>
+        <option value="Elephant">Elephant</option>
+        <option value="Monkey">Monkey</option>
+    </select>
+    <label for="sex">Sex: </label>
+    <select name="sex" id="sex">
+        <option value="0">0</option>
+        <option value="1">1</option>
+    </select>
+    Name: <input type="text" name="name"><br>
+    Age: <input type="number" name="age"><br>
+    Weight: <input type="number" step="0.01" name="weight">
+    Temperament: <input type="text" name="temperament"><br>
+    <input type="submit" value="Submit">
+</form>
+<br/>

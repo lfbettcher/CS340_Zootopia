@@ -41,6 +41,54 @@ def add_new_people():
         execute_query(db_connection, query, data)
         return ('Person added!')
 
+@webapp.route('/browse_Animals')
+#the name of this function is just a cosmetic thing
+def browse_Animals():
+    print("Fetching and rendering Animals web page")
+    db_connection = connect_to_database()
+    query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
+    result_animals = execute_query(db_connection, query_animals).fetchall()
+    print(result_animals)
+
+    query_medications = "SELECT med_id, name FROM Medications;"
+    result_medications = execute_query(db_connection, query_medications).fetchall()
+    print(result_medications)
+    return render_template('Animals_browse.html', rows_animals=result_animals, rows_medications=result_medications)
+
+@webapp.route('/add_new_animal', methods=['POST','GET'])
+def add_new_animal():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT animal_id, name from Animals'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('Animals_add_new.html') # see people e.g.
+    elif request.method == 'POST':
+        print("Add new animal!")
+        type = request.form['type']
+        sex = request.form['sex']
+        name = request.form['name']
+        age = request.form['age']
+        weight = request.form['weight']
+        temperament = request.form['temperament']
+
+        query = 'INSERT INTO Animals (type, sex, name, age, weight, temperament) VALUES (%s,%s,%s,%s,%s,%s)'
+        data = (type, sex, name, age, weight, temperament)
+        execute_query(db_connection, query, data)
+        return ('Animal added!')
+
+# NOTE: this code isn't needed anymore since medications is on animals page
+# @webapp.route('/browse_Medications')
+# #the name of this function is just a cosmetic thing
+# def browse_Medications():
+#     print("Fetching and rendering Medications web page")
+#     db_connection = connect_to_database()
+#     query = "SELECT med_id, name FROM Medications;"
+#     result = execute_query(db_connection, query).fetchall()
+#     print(result)
+#     return render_template('Medications_browse.html', rows=result)
+
 @webapp.route('/')
 def index():
     return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
