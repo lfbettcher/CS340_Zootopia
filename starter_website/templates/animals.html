@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set active_page = "animals" %}
+
+{% block title %}Animals{% endblock %}
+{% block content %}
+<!--<h3><a href='/add_new_animal'>Add new animal</a></h3> for updates later -->
+<h3>Current Animals</h3>
+<table border='1'>
+    <thead>
+    <th>Animal ID</th>
+    <th>Type</th>
+    <th>Sex</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Weight</th>
+    <th>Temperament</th>
+    <th>Zookeeper ID</th>
+    </thead>
+    <tbody>
+    {% for r in rows_animals %}
+    <tr>
+        <td> {{ r[0] }}</td>
+        <td> {{ r[1] }}</td>
+        <td> {{ r[2] }}</td>
+        <td> {{ r[3] }}</td>
+        <td> {{ r[4] }}</td>
+        <td> {{ r[5] }}</td>
+        <td> {{ r[6] }}</td>
+        <td> {{ r[7] }}</td>
+        <td> <input type='button' class='update-btn' name='Update' value='Update' onclick="window.location = '/update_people/{{r[0]}}'"> </td>
+        <td> <input type='button' class='delete-btn' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[0]}}'"> </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3>Current Medications</h3>
+<table border='1'>
+    <thead>
+    <th>Medication ID</th>
+    <th>Name</th>
+    </thead>
+    <tbody>
+    {% for r in rows_medications %}
+    <tr>
+        <td> {{ r[0] }}</td>
+        <td> {{ r[1] }}</td>
+        <td> <input type='button' class='update-btn' name='Update' value='Update' onclick="window.location = '/update_people/{{r[0]}}'"> </td>
+        <td> <input type='button' class='delete-btn' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[0]}}'"> </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

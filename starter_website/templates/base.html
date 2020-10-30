@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}{% endblock %} - Zootopia Management System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/styles.css') }}"/>
+</head>
+<body>
+<header>
+{% set nav_items = [
+  ('/', 'index', 'Home'),
+  ('/animals', 'animals', 'Animals'),
+  ('/zookeepers', 'zookeepers', 'Zookeepers')
+] -%}
+
+{% set active_page = active_page|default('index') -%}
+  <ul class="nav-list">
+    {% for href, id, title in nav_items %}
+    <li {% if id == active_page %} class="active"{% endif %}>
+      <a href="{{ href|e }}">{{ title|e }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</header>
+
+<div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>

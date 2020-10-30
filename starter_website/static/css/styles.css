@@ -1,0 +1,89 @@
+:root {
+  --green-dark: #207561;
+  --green-med: #589167;
+  --green-light: #a0cc78;
+  --red: #da4302;
+  --brown: #6d4e0c;
+  --offwhite: #f9f6f2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+body {
+  background: var(--offwhite);
+}
+
+/* nav bar */
+header {
+  background-color: var(--green-dark);
+}
+
+.nav-list {
+  padding: 0;
+  display: flex;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.nav-list li {
+  float: left;
+  display: inline;
+}
+
+.nav-list a {
+  display: block;
+  color: var(--green-light);
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.nav-list li.active a {
+  background-color: var(--green-light);
+  color: var(--green-dark);
+}
+
+.nav-list a:hover {
+  background-color: var(--red);
+  color: black;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin: 15px;
+  color: var(--green-dark)
+}
+
+h4 {
+  text-align: center;
+  margin: 15px;
+  color: var(--red)
+}
+
+/* tables */
+table, th, td {
+  border: 3px solid var(--brown);
+  border-collapse: collapse;
+  padding: 0.2em 0.5em 0.2em;
+  margin: 0;
+}
+
+table {
+  max-width: 800px;
+  margin: 0 auto 0;
+}
+
+.update-btn {
+  background-color: var(--green-med);
+  padding: 2px;
+}
+
+.delete-btn {
+  background-color: var(--red);
+  padding: 2px;
+}
