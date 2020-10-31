@@ -9,7 +9,6 @@ webapp = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
 @webapp.route('/animals')
 def animals():
     print("Fetching and rendering Animals web page")
@@ -21,8 +20,14 @@ def animals():
     query_medications = "SELECT med_id, name FROM Medications;"
     result_medications = execute_query(db_connection, query_medications).fetchall()
     print(result_medications)
-    return render_template('animals.html', rows_animals=result_animals, rows_medications=result_medications)
 
+    query_animals_meds = "SELECT id, animal_id, med_id FROM Animals_Medications;"
+    result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
+    print(result_animals_meds)
+
+    return render_template('animals.html', rows_animals=result_animals,
+                            rows_medications=result_medications,
+                            rows_animals_meds=result_animals_meds)
 
 @webapp.route('/add_new_animals', methods=['POST','GET'])
 def add_new_animals():
@@ -46,6 +51,26 @@ def add_new_animals():
         data = (type, sex, name, age, weight, temperament)
         execute_query(db_connection, query, data)
         return ('Animal added!')
+
+@webapp.route('/zookeepers')
+def zookeepers():
+    print("Fetching and rendering Zookeepers web page")
+    db_connection = connect_to_database()
+    query_zookeepers = "SELECT zookeeper_id, first_name, last_name FROM Zookeepers;"
+    result_zookeepers = execute_query(db_connection, query_zookeepers).fetchall()
+    print(result_zookeepers)
+
+    query_workdays = "SELECT workday_id, day FROM Workdays;"
+    result_workdays = execute_query(db_connection, query_workdays).fetchall()
+    print(result_workdays)
+
+    query_zookeepers_workdays = "SELECT id, zookeeper_id, workday_id FROM Zookeepers_Workdays;"
+    result_zookeepers_workdays = execute_query(db_connection, query_zookeepers_workdays).fetchall()
+    print(result_zookeepers_workdays)
+
+    return render_template('zookeepers.html', rows_zookeepers=result_zookeepers,
+                            rows_workdays=result_workdays,
+                            rows_zookeepers_workdays=result_zookeepers_workdays)
 
 # NOTE: this code isn't needed anymore since medications is on animals page
 # @webapp.route('/browse_Medications')

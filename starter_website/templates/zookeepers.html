@@ -1,32 +1,22 @@
 {% extends "base.html" %}
-{% set active_page = "animals" %}
+{% set active_page = "zookeepers" %}
 
-{% block title %}Animals{% endblock %}
+{% block title %}Zookeepers{% endblock %}
 {% block content %}
-<!--<h3><a href='/add_new_animal'>Add new animal</a></h3> for updates later -->
-<h3>Animals</h3>
+<!--<h3><a href='/add_new_zookeeper'>Add new zookeeper</a></h3> for updates later -->
+<h3>Zookeepers</h3>
 <table border='1'>
     <thead>
-    <th>Animal ID</th>
-    <th>Type</th>
-    <th>Sex</th>
-    <th>Name</th>
-    <th>Age (yrs)</th>
-    <th>Weight (lbs)</th>
-    <th>Temperament</th>
     <th>Zookeeper ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
     </thead>
     <tbody>
-    {% for r in rows_animals %}
+    {% for r in rows_zookeepers %}
     <tr>
         <td> {{ r[0] }}</td>
         <td> {{ r[1] }}</td>
         <td> {{ r[2] }}</td>
-        <td> {{ r[3] }}</td>
-        <td> {{ r[4] }}</td>
-        <td> {{ r[5] }}</td>
-        <td> {{ r[6] }}</td>
-        <td> {{ r[7] }}</td>
         <td> <input type='button' class='update-btn' name='Update' value='Update'> </td>
         <td> <input type='button' class='delete-btn' name='Delete' value='Delete'> </td>
     </tr>
@@ -34,14 +24,14 @@
     </tbody>
 </table>
 
-<h3>Medications</h3>
+<h3>Workdays</h3>
 <table border='1'>
     <thead>
-    <th>Medication ID</th>
-    <th>Name</th>
+    <th>Workday ID</th>
+    <th>Day</th>
     </thead>
     <tbody>
-    {% for r in rows_medications %}
+    {% for r in rows_workdays %}
     <tr>
         <td> {{ r[0] }}</td>
         <td> {{ r[1] }}</td>
@@ -52,17 +42,17 @@
     </tbody>
 </table>
 
-<h3>Animal Medications (Relationship Table)</h3>
+<h3>Zookeepers Workdays (Relationship Table)</h3>
 <table border='1'>
     <thead>
     <th style="display:none;">ID</th>
-    <th>Animal ID</th>
-    <th>Medication ID</th>
+    <th>Zookeeper ID</th>
+    <th>Workday ID</th>
     </thead>
     <tbody>
-    {% for r in rows_animals_meds %}
+    {% for r in rows_zookeepers_workdays %}
     <tr>
-        <td style="display:none;"> {{ r[0] }}</td>
+        <td  style="display:none;"> {{ r[0] }}</td>
         <td> {{ r[1] }}</td>
         <td> {{ r[2] }}</td>
         <td> <input type='button' class='update-btn' name='Update' value='Update'> </td>
