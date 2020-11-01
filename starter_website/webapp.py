@@ -9,6 +9,7 @@ webapp = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
 @webapp.route('/animals')
 def animals():
     print("Fetching and rendering Animals web page")
@@ -26,8 +27,67 @@ def animals():
     print(result_animals_meds)
 
     return render_template('animals.html', rows_animals=result_animals,
-                            rows_medications=result_medications,
-                            rows_animals_meds=result_animals_meds)
+                           rows_medications=result_medications,
+                           rows_animals_meds=result_animals_meds)
+
+
+# table data as input
+@webapp.route('/test_table')
+def test_table():
+    print("Fetching and rendering Animals web page")
+    db_connection = connect_to_database()
+    query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
+    result_animals = execute_query(db_connection, query_animals).fetchall()
+    print(result_animals)
+
+    query_medications = "SELECT med_id, name FROM Medications;"
+    result_medications = execute_query(db_connection, query_medications).fetchall()
+    print(result_medications)
+
+    query_animals_meds = "SELECT id, animal_id, med_id FROM Animals_Medications;"
+    result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
+    print(result_animals_meds)
+
+    return render_template('test_table.html', rows_animals=result_animals,
+                           rows_medications=result_medications,
+                           rows_animals_meds=result_animals_meds)
+
+
+# does not work yet
+@webapp.route('/test_table/update', methods=['POST', 'GET'])
+def update_animals():
+    print('In the function')
+    db_connection = connect_to_database()
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
+        result_animals = execute_query(db_connection, query_animals).fetchall()
+        print(result_animals)
+
+        if animal_result is None:
+            return "No such animal found!"
+
+        return render_template('test_table.html', row_animals=result_animals)
+
+    elif request.method == 'POST':
+        print('The POST request')
+        animal_id = request.form['animal_id']
+        type = request.form['type']
+        sex = request.form['sex']
+        name = request.form['name']
+        age = request.form['age']
+        weight = request.form['weight']
+        temperament = request.form['temperament']
+        zookeeper_id = request.form['zookeeper_id']
+
+        query = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
+        data = (animal_id, type, sex, name, age, weight, temperament, zookeeper_id)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/test_table')
+
 
 @webapp.route('/add_new_animals', methods=['POST','GET'])
 def add_new_animals():
@@ -51,6 +111,7 @@ def add_new_animals():
         data = (type, sex, name, age, weight, temperament)
         execute_query(db_connection, query, data)
         return ('Animal added!')
+
 
 @webapp.route('/zookeepers')
 def zookeepers():
@@ -89,7 +150,6 @@ def zookeepers():
 
 
 @webapp.route('/browse_bsg_people')
-#the name of this function is just a cosmetic thing
 def browse_people():
     print("Fetching and rendering people web page")
     db_connection = connect_to_database()
@@ -136,6 +196,7 @@ def home():
         print(f"{r[0]}, {r[1]}")
     return render_template('home.html', result = result)
 
+
 @webapp.route('/db_test')
 def test_database_connection():
     print("Executing a sample query on the database using the credentials from db_credentials.py")
@@ -143,6 +204,7 @@ def test_database_connection():
     query = "SELECT * from bsg_people;"
     result = execute_query(db_connection, query)
     return render_template('db_test.html', rows=result)
+
 
 #display update form and process any updates, using the same function
 @webapp.route('/update_people/<int:id>', methods=['POST','GET'])
@@ -177,6 +239,7 @@ def update_people(id):
         print(str(result.rowcount) + " row(s) updated")
 
         return redirect('/browse_bsg_people')
+
 
 @webapp.route('/delete_people/<int:id>')
 def delete_people(id):

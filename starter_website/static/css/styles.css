@@ -78,6 +78,32 @@ table {
   margin: 0 auto 0;
 }
 
+th {
+  width: auto;
+  white-space: nowrap;
+}
+
+tr input {
+  max-width: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: #222222;
+}
+
+tr input:not([type="numver"]):not([type="submit"]) {
+  min-width: 6em;
+}
+
+tr input[type="number"] {
+  min-width: 4em;
+}
+
+tr button {
+  width: 4em;
+  color: black;
+  font-size: 15px;
+}
+
 .update-btn {
   background-color: var(--green-med);
   padding: 2px;
