@@ -31,30 +31,8 @@ def animals():
                            rows_animals_meds=result_animals_meds)
 
 
-# table data as input
-@webapp.route('/test_table')
-def test_table():
-    print("Fetching and rendering Animals web page")
-    db_connection = connect_to_database()
-    query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
-    result_animals = execute_query(db_connection, query_animals).fetchall()
-    print(result_animals)
-
-    query_medications = "SELECT med_id, name FROM Medications;"
-    result_medications = execute_query(db_connection, query_medications).fetchall()
-    print(result_medications)
-
-    query_animals_meds = "SELECT id, animal_id, med_id FROM Animals_Medications;"
-    result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
-    print(result_animals_meds)
-
-    return render_template('test_table.html', rows_animals=result_animals,
-                           rows_medications=result_medications,
-                           rows_animals_meds=result_animals_meds)
-
-
 # does not work yet
-@webapp.route('/test_table/update', methods=['POST', 'GET'])
+@webapp.route('/animals/update', methods=['POST', 'GET'])
 def update_animals():
     print('In the function')
     db_connection = connect_to_database()
@@ -86,7 +64,7 @@ def update_animals():
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + " row(s) updated")
 
-        return redirect('/test_table')
+        return redirect('/animals')
 
 
 @webapp.route('/add_new_animals', methods=['POST','GET'])

@@ -67,7 +67,7 @@ h4 {
 
 /* tables */
 table, th, td {
-  border: 3px solid var(--brown);
+  border: 2px solid var(--brown);
   border-collapse: collapse;
   padding: 0.2em 0.5em 0.2em;
   margin: 0;
@@ -98,18 +98,25 @@ tr input[type="number"] {
   min-width: 4em;
 }
 
-tr button {
+table button {
   width: 4em;
   color: black;
   font-size: 15px;
 }
 
 .update-btn {
-  background-color: var(--green-med);
+  background-color: var(--green-light);
   padding: 2px;
 }
 
 .delete-btn {
   background-color: var(--red);
   padding: 2px;
+}
+
+.add-btn {
+  width: 100%;
+  background-color: var(--green-dark);
+  padding: 2px;
+  color: var(--green-light);
 }

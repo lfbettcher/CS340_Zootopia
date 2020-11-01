@@ -10,7 +10,7 @@ tables.forEach((table) => {
       enableRow(target.parentNode.parentNode.id);
     } else if (target.name === "Save") {
       toggleEditButton(target);
-      disableInput();
+      disableRow(target.parentNode.parentNode.id);
       onUpdate(event, target.parentNode.parentNode.id);
     }
     if (target.name === "Delete") {
@@ -29,27 +29,31 @@ function toggleEditButton(button) {
   }
 };
 
-function disableInput() {
+function disableAllInput() {
   // disable inputs in table until update button is clicked
   document.querySelectorAll("tbody input").forEach((input) => {
     input.disabled = true;
   });
 };
 
-function enableRow(rowID) {
-  // enable inputs when update button is clicked
+function disableRow(rowID) {
+  // disable inputs when save button is clicked
   let tdList = Array.from(document.getElementById(rowID).children);
   tdList.forEach((td) => {
     console.log(td.firstChild.tagName);
-    if (td.firstChild.tagName === "INPUT" && td.firstChild.name !== "animal_id" && td.firstChild.name !== "med_id") {
+    if (td.firstChild.tagName === "INPUT") {
+      td.firstChild.disabled = true;
+    }
+  });
+};
+
+function enableRow(rowID) {
+  // enable inputs when edit button is clicked
+  let tdList = Array.from(document.getElementById(rowID).children);
+  tdList.forEach((td) => {
+    if (td.firstChild.tagName === "INPUT" && td.firstChild.name !== "animal_id"
+        && td.firstChild.name !== "med_id") {
       td.firstChild.disabled = false;
-    } else if (td.firstChild.tagName === "FORM") {
-      let radioForm = td.firstChild.childNodes;
-      radioForm.forEach((child) => {
-        if (child.tagName === "INPUT") {
-          child.disabled = false;
-        }
-      });
     }
   });
 };
