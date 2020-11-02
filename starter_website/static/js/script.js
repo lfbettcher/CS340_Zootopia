@@ -51,8 +51,7 @@ function enableRow(rowID) {
   // enable inputs when edit button is clicked
   let tdList = Array.from(document.getElementById(rowID).children);
   tdList.forEach((td) => {
-    if (td.firstChild.tagName === "INPUT" && td.firstChild.name !== "animal_id"
-        && td.firstChild.name !== "med_id") {
+    if (td.firstChild.tagName === "INPUT") {
       td.firstChild.disabled = false;
     }
   });
