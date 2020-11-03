@@ -2,6 +2,8 @@
   --green-dark: #207561;
   --green-med: #589167;
   --green-light: #a0cc78;
+  --blue-med: #007bff;
+  --blue-dark:#00008B;
   --red: #da4302;
   --brown: #6d4e0c;
   --offwhite: #f9f6f2;
@@ -119,4 +121,10 @@ table button {
   background-color: var(--green-dark);
   padding: 2px;
   color: var(--green-light);
+}
+
+.search-btn {
+  width: 100%;
+  background-color: var(--blue-med);
+  padding: 2px;
 }

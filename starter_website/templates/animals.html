@@ -3,19 +3,26 @@
 
 {% block title %}Animals{% endblock %}
 {% block content %}
-<!--<h3><a href='/add_new_animal'>Add new animal</a></h3> for updates later -->
 <h3>Animals</h3>
-<table id=animalTable>
+<table id="animalTable">
   <thead>
-  <th>Animal ID</th>
-  <th>Type</th>
-  <th>Sex</th>
-  <th>Name</th>
-  <th>Age (yrs)</th>
-  <th>Weight (lbs)</th>
-  <th>Temperament</th>
-  <th>Zookeeper ID</th>
-  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
+  <col>
+  <colgroup span="8"></colgroup>
+  <tr>
+    <th colspan="8" scope="colgroup"><input type="text" placeholder="Search animal..." name="search"></th>
+    <th colspan="2" scope="colgroup"><button type="button" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search"></i></button></th>
+  </tr>
+  <tr>
+    <th scope="col">Animal ID</th>
+    <th scope="col">Type</th>
+    <th scope="col">Sex</th>
+    <th scope="col">Name</th>
+    <th scope="col">Age (yrs)</th>
+    <th scope="col">Weight (lbs)</th>
+    <th scope="col">Temperament</th>
+    <th scope="col">Zookeeper ID</th>
+    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
+  </tr>
   </thead>
   <tbody>
   {% for r in rows_animals %}
