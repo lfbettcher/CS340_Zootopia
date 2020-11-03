@@ -6,6 +6,7 @@
   --blue-dark:#00008B;
   --red: #da4302;
   --brown: #6d4e0c;
+  --brown-light: #ad8e4c;
   --offwhite: #f9f6f2;
 }
 
@@ -125,6 +126,15 @@ table button {
 
 .search-btn {
   width: 100%;
-  background-color: var(--blue-med);
+  background-color: var(--brown-light);
   padding: 2px;
+}
+
+.centered-img {
+  text-align: center;
+  margin: auto;
+}
+
+.centered-img p {
+  text-align: left
 }
