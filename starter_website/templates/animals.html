@@ -9,7 +9,7 @@
   <col>
   <colgroup span="8"></colgroup>
   <tr>
-    <th colspan="8" scope="colgroup"><input type="text" placeholder="Search animal..." name="search"></th>
+    <th colspan="8" scope="colgroup"><input type="text" placeholder='Search Animals Table (examples: "Lion", "1", "Friend", "M", etc)...' name="search"></th>
     <th colspan="2" scope="colgroup"><button type="button" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search"></i></button></th>
   </tr>
   <tr>
@@ -20,7 +20,7 @@
     <th scope="col">Age (yrs)</th>
     <th scope="col">Weight (lbs)</th>
     <th scope="col">Temperament</th>
-    <th scope="col">Zookeeper ID</th>
+    <th scope="col">*Zookeeper ID</th>
     <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
   </tr>
   </thead>
@@ -39,6 +39,9 @@
     <td><button type='submit' class='delete-btn' name='Delete' value='Delete'>Delete</button></td>
   </tr>
   {% endfor %}
+  <tr>
+    <td colspan="10"><i>* NOTE: each animal has only one Zookeeper assigned to them.</i></td>
+  </tr>
   </tbody>
 </table>
 <h3>Medications</h3>

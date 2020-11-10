@@ -30,15 +30,15 @@
   <thead>
   <th>Workday ID</th>
   <th>Day</th>
-  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addworkday" class="add-btn" name="Add" value="Add">Add</button></th>
+<!--  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addworkday" class="add-btn" name="Add" value="Add">Add</button></th>-->
   </thead>
   <tbody>
   {% for r in rows_workdays %}
   <tr id="workday{{ loop.index }}">
     <td><input type="number" name="workday_id" value="{{ r[0] }}" style="min-width: 2em"  disabled="true"></td>
     <td><input type="text" name="day" value="{{ r[1] }}" disabled="true"></td>
-    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>
-    <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>
+<!--    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>-->
+<!--    <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>-->
   </tr>
   {% endfor %}
   </tbody>
