@@ -1,8 +1,9 @@
 from flask import Flask, render_template
-from flask import request, redirect
+from flask import request, redirect, flash, jsonify
 from db_connector.db_connector import connect_to_database, execute_query
-#create the web application
+# create the web application
 webapp = Flask(__name__)
+webapp.secret_key = "Secret Key"
 
 
 @webapp.route('/')
@@ -16,41 +17,57 @@ def animals():
     db_connection = connect_to_database()
     query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
     result_animals = execute_query(db_connection, query_animals).fetchall()
-    print(result_animals)
+    # print(result_animals)
 
     query_medications = "SELECT med_id, name FROM Medications;"
     result_medications = execute_query(db_connection, query_medications).fetchall()
-    print(result_medications)
+    # print(result_medications)
 
     query_animals_meds = "SELECT id, animal_id, med_id FROM Animals_Medications;"
     result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
-    print(result_animals_meds)
+    # print(result_animals_meds)
 
     return render_template('animals.html', rows_animals=result_animals,
                            rows_medications=result_medications,
                            rows_animals_meds=result_animals_meds)
 
 
-# does not work yet
-@webapp.route('/animals/update', methods=['POST', 'GET'])
-def update_animals():
-    print('In the function')
+@webapp.route('/update_animal', methods=['POST', 'GET'])
+def update_animal():
     db_connection = connect_to_database()
-    #display existing data
-    if request.method == 'GET':
-        print('The GET request')
-        query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
-        result_animals = execute_query(db_connection, query_animals).fetchall()
-        print(result_animals)
+    if request.method == 'POST':
+        print("Incoming post in update_animal")
+        update_data = request.get_json()
+        animal_id = update_data['animal_id']
+        type = update_data['type']
+        sex = update_data['sex']
+        name = update_data['name']
+        age = update_data['age']
+        weight = update_data['weight']
+        temperament = update_data['temperament']
+        zookeeper_id = update_data['zookeeper_id']
 
-        if animal_result is None:
-            return "No such animal found!"
+        # Updating animal_id does not work
+        query = "UPDATE Animals SET animal_id = %s, type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s WHERE animal_id = %s;"
+        data = (animal_id, type, sex, name, age, weight, temperament, zookeeper_id, animal_id)
+        result = execute_query(db_connection, query, data)
+        print("====================")
+        print(str(result.rowcount) + " row(s) updated")
 
-        return render_template('test_table.html', row_animals=result_animals)
+        # TODO: handle failed UPDATE and make flash message work
+        flash("why doesn't flash work here?")
+        if result is None:
+            flash("Could not UPDATE")
+        else:
+            flash(f"{result.rowcount} row(s) updated")
 
-    elif request.method == 'POST':
-        print('The POST request')
-        animal_id = request.form['animal_id']
+        return redirect('/animals')
+
+
+@webapp.route('/add_animal', methods=['POST', 'GET'])
+def add_animal():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
         type = request.form['type']
         sex = request.form['sex']
         name = request.form['name']
@@ -59,72 +76,47 @@ def update_animals():
         temperament = request.form['temperament']
         zookeeper_id = request.form['zookeeper_id']
 
-        query = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
-        data = (animal_id, type, sex, name, age, weight, temperament, zookeeper_id)
-        result = execute_query(db_connection, query, data)
-        print(str(result.rowcount) + " row(s) updated")
+        query = 'INSERT INTO Animals (type, sex, name, age, weight, temperament, zookeeper_id) VALUES (%s,%s,%s,%s,%s,%s,%s)'
+        data = (type, sex, name, age, weight, temperament, zookeeper_id)
+        execute_query(db_connection, query, data)
 
+        flash("Animal added successfully")
         return redirect('/animals')
 
 
-@webapp.route('/add_new_animals', methods=['POST','GET'])
-def add_new_animals():
+@webapp.route('/delete_animal', methods=['POST', 'GET'])
+def delete_animal():
     db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT animal_id, name from Animals'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('animals_add_new.html') # see people e.g.
-    elif request.method == 'POST':
-        print("Add new animal!")
-        type = request.form['type']
-        sex = request.form['sex']
-        name = request.form['name']
-        age = request.form['age']
-        weight = request.form['weight']
-        temperament = request.form['temperament']
-
-        query = 'INSERT INTO Animals (type, sex, name, age, weight, temperament) VALUES (%s,%s,%s,%s,%s,%s)'
-        data = (type, sex, name, age, weight, temperament)
-        execute_query(db_connection, query, data)
-        return ('Animal added!')
+    print("Incoming post in delete_animal")
+    update_data = request.get_json()
+    animal_id = update_data['animal_id']
+    query = "DELETE FROM Animals WHERE animal_id = %s"
+    data = (animal_id,)
+    result = execute_query(db_connection, query, data)
+    print(str(result.rowcount) + " row deleted")
+    flash(str(result.rowcount) + " row deleted")
+    return redirect('/animals')
 
 
 @webapp.route('/zookeepers')
 def zookeepers():
-    print("Fetching and rendering Zookeepers web page")
+    # print("Fetching and rendering Zookeepers web page")
     db_connection = connect_to_database()
     query_zookeepers = "SELECT zookeeper_id, first_name, last_name FROM Zookeepers;"
     result_zookeepers = execute_query(db_connection, query_zookeepers).fetchall()
-    print(result_zookeepers)
+    # print(result_zookeepers)
 
     query_workdays = "SELECT workday_id, day FROM Workdays;"
     result_workdays = execute_query(db_connection, query_workdays).fetchall()
-    print(result_workdays)
+    # print(result_workdays)
 
     query_zookeepers_workdays = "SELECT id, zookeeper_id, workday_id FROM Zookeepers_Workdays;"
     result_zookeepers_workdays = execute_query(db_connection, query_zookeepers_workdays).fetchall()
-    print(result_zookeepers_workdays)
+    # print(result_zookeepers_workdays)
 
     return render_template('zookeepers.html', rows_zookeepers=result_zookeepers,
                             rows_workdays=result_workdays,
                             rows_zookeepers_workdays=result_zookeepers_workdays)
-
-# NOTE: this code isn't needed anymore since medications is on animals page
-# @webapp.route('/browse_Medications')
-# #the name of this function is just a cosmetic thing
-# def browse_Medications():
-#     print("Fetching and rendering Medications web page")
-#     db_connection = connect_to_database()
-#     query = "SELECT med_id, name FROM Medications;"
-#     result = execute_query(db_connection, query).fetchall()
-#     print(result)
-#     return render_template('Medications_browse.html', rows=result)
-
-# @webapp.route('/')
-# def index():
-#     return "<p>Are you looking for /db_test or /hello or <a href='/browse_bsg_people'>/browse_bsg_people</a> or /add_new_people or /update_people/id or /delete_people/id </p>"
 
 
 @webapp.route('/browse_bsg_people')
