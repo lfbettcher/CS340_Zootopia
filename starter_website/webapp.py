@@ -83,20 +83,30 @@ def add_animal():
         flash("Animal added successfully")
         return redirect('/animals')
 
+# -- Huber Revision Start --
+# @webapp.route('/delete_animal', methods=['POST', 'GET'])
+# def delete_animal():
+#     db_connection = connect_to_database()
+#     print("Incoming post in delete_animal")
+#     update_data = request.get_json()
+#     animal_id = update_data['animal_id']
+#     query = "DELETE FROM Animals WHERE animal_id = %s"
+#     data = (animal_id,)
+#     result = execute_query(db_connection, query, data)
+#     print(str(result.rowcount) + " row deleted")
+#     flash(str(result.rowcount) + " row deleted")
+#     return redirect('/animals')
 
-@webapp.route('/delete_animal', methods=['POST', 'GET'])
-def delete_animal():
+@webapp.route('/delete_animal/<string:id>', methods=['POST'])
+def delete_animal(id):
     db_connection = connect_to_database()
     print("Incoming post in delete_animal")
-    update_data = request.get_json()
-    animal_id = update_data['animal_id']
     query = "DELETE FROM Animals WHERE animal_id = %s"
-    data = (animal_id,)
-    result = execute_query(db_connection, query, data)
-    print(str(result.rowcount) + " row deleted")
-    flash(str(result.rowcount) + " row deleted")
-    return redirect('/animals')
+    execute_query(db_connection, query, [id])
 
+    flash('Animal Deleted', 'success')
+    return redirect('/animals')
+# -- Huber Revision End --
 
 @webapp.route('/zookeepers')
 def zookeepers():

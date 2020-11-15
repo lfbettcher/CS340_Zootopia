@@ -51,7 +51,16 @@
     <td><input type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
     <td><input type="number" name="zookeeper_id" value="{{ r[7] }}" disabled="true"></td>
     <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
-    <td><button type='submit' class='delete-btn' name='Delete'>Delete</button></td>
+    <!-- Huber Revision Start -->
+<!--    <td><button type='submit' class='delete-btn' name='Delete'>Delete</button></td>-->
+
+    <td>
+      <form action="{{url_for('delete_animal', id=r[0])}}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" class='delete-btn' name='Delete' value="Delete">
+      </form>
+    </td>
+<!-- Huber Revision End -->
   </tr>
   {% endfor %}
   <tr>
