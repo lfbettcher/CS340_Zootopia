@@ -15,7 +15,7 @@ def index():
 def animals():
     print("Fetching and rendering Animals web page")
     db_connection = connect_to_database()
-    query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;"
+    query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id ORDER BY animal_id ASC;"
     result_animals = execute_query(db_connection, query_animals).fetchall()
     # print(result_animals)
 
@@ -23,13 +23,18 @@ def animals():
     result_medications = execute_query(db_connection, query_medications).fetchall()
     # print(result_medications)
 
-    query_animals_meds = "SELECT id, animal_id, med_id FROM Animals_Medications;"
+    query_animals_meds = "SELECT id, Animals.name, Medications.name FROM Animals_Medications INNER JOIN Animals ON Animals_Medications.animal_id = Animals.animal_id INNER JOIN Medications ON Animals_Medications.med_id = Medications.med_id;"
     result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
     # print(result_animals_meds)
 
-    return render_template('animals.html', rows_animals=result_animals,
-                           rows_medications=result_medications,
-                           rows_animals_meds=result_animals_meds)
+    query_zookeepers = "SELECT zookeeper_id, first_name, last_name FROM Zookeepers;"
+    result_zookeepers = execute_query(db_connection, query_zookeepers).fetchall()
+
+    return render_template('animals.html',
+                            rows_animals=result_animals,
+                            rows_medications=result_medications,
+                            rows_animals_meds=result_animals_meds,
+                            rows_zookeepers=result_zookeepers)
 
 
 @webapp.route('/update_animal', methods=['POST', 'GET'])
@@ -104,7 +109,7 @@ def delete_animal(id):
     query = "DELETE FROM Animals WHERE animal_id = %s"
     execute_query(db_connection, query, [id])
 
-    flash('Animal Deleted', 'success')
+    flash('Animal deleted successfully', 'success')
     return redirect('/animals')
 # -- Huber Revision End --
 

@@ -24,8 +24,8 @@
   <col>
   <colgroup span="8"></colgroup>
   <tr>
-    <th colspan="8" scope="colgroup"><input type="text" placeholder='Search Animals Table (examples: "Lion", "1", "Friend", "M", etc)...' name="search"></th>
-    <th colspan="2" scope="colgroup"><button type="button" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search"></i></button></th>
+    <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" placeholder='Search Animals Table (examples: "Lion", "1", "Friend", "M", etc)...' name="search"></th>
+    <th colspan="2" scope="colgroup"><button id="search_button" type="button" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search"></i></button></th>
   </tr>
   <tr>
     <th scope="col">Animal ID</th>
@@ -35,7 +35,7 @@
     <th scope="col">Age (yrs)</th>
     <th scope="col">Weight (lbs)</th>
     <th scope="col">Temperament</th>
-    <th scope="col">*Zookeeper ID</th>
+    <th scope="col">*Zookeeper</th>
     <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
   </tr>
   </thead>
@@ -49,7 +49,7 @@
     <td><input type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
     <td><input type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
     <td><input type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
-    <td><input type="number" name="zookeeper_id" value="{{ r[7] }}" disabled="true"></td>
+    <td><input type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>
     <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
     <!-- Huber Revision Start -->
 <!--    <td><button type='submit' class='delete-btn' name='Delete'>Delete</button></td>-->
@@ -68,6 +68,7 @@
   </tr>
   </tbody>
 </table>
+
 <h3>Medications</h3>
 <table id="medTable">
   <thead>
@@ -91,16 +92,16 @@
 <table id="animalMedTable">
   <thead>
   <th style="display:none;">ID</th>
-  <th>Animal ID</th>
-  <th>Medication ID</th>
+  <th>Animal Name</th>
+  <th>Medication Name</th>
   <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimalmedication" class="add-btn" name="Add" value="Add">Add</button></th>
   </thead>
   <tbody>
   {% for r in rows_animals_meds %}
   <tr id="animalMed{{ loop.index }}">
     <td style="display:none;"> {{ r[0] }}</td>
-    <td><input type="number" name="animal_id" value="{{ r[1] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="number" name="med_id" value="{{ r[2] }}" style="min-width: 2em" disabled="true"></td>
+    <td><input type="text" name="Animals.name" value="{{ r[1] }}" style="min-width: 2em" disabled="true"></td>
+    <td><input type="text" name="Medications.name" value="{{ r[2] }}" style="min-width: 2em" disabled="true"></td>
     <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
     <td><button type='submit' class='delete-btn' name='Delete' value='Delete'>Delete</button></td>
   </tr>
@@ -121,12 +122,21 @@
       <div class="modal-body">
         <form action="/add_animal" method="POST">
           <div class="form-group">
-            <label>Type:</label>
-            <input type="text" class="form-control" name="type" required="1">
+            <label for="type">Type:</label>
+            <select class="form-control" id="type" name="type">
+              <option value="Elephant">Elephant</option>
+              <option value="Giraffe">Giraffe</option>
+              <option value="Lion">Lion</option>
+              <option value="Monkey">Monkey</option>
+              <option value="Zebra">Zebra</option>
+            </select>
           </div>
           <div class="form-group">
-            <label>Sex (M or F):</label>
-            <input type="text" class="form-control" name="sex" maxlength="1" required="1">
+            <label for="sex">Sex:</label>
+            <select class="form-control" id="sex" name="sex">
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
           </div>
           <div class="form-group">
             <label>Name:</label>
@@ -145,8 +155,12 @@
             <input type="text" class="form-control" name="temperament" required="1">
           </div>
           <div class="form-group">
-            <label>Zookeeper ID:</label>
-            <input type="number" class="form-control" name="zookeeper_id" required="1">
+            <label for="zookeeper_id">Zookeeper Last Name:</label>
+            <select class="form-control" id="zookeeper_id" name="zookeeper_id">
+              {% for r in rows_zookeepers %}
+              <option value="{{ r[0] }}">{{ r[2] }}</option>
+              {% endfor %}
+            </select>
           </div>
           <div class="form-group">
             <button class="update-btn" type="submit">Add Animal</button>
