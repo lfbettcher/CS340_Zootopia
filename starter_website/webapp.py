@@ -49,12 +49,12 @@ def update_animal():
         age = request.form['age']
         weight = request.form['weight']
         temperament = request.form['temperament']
-        zookeeper_last_name = request.form['last_name']
+        zookeeper_id = request.form['zookeeper_id']
 
         # get zookeeper_id
-        zookeeper_query = "SELECT zookeeper_id FROM Zookeepers WHERE last_name = '%s';" % (zookeeper_last_name)
-        zookeeper_result = execute_query(db_connection, zookeeper_query).fetchone()
-        zookeeper_id = zookeeper_result[0]
+        # zookeeper_query = "SELECT zookeeper_id FROM Zookeepers WHERE last_name = '%s';" % (zookeeper_last_name)
+        # zookeeper_result = execute_query(db_connection, zookeeper_query).fetchone()
+        # zookeeper_id = zookeeper_result[0]
 
         # TODO - updating animal_id does not work?
         query = "UPDATE Animals SET animal_id = %s, type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s WHERE animal_id = %s;"

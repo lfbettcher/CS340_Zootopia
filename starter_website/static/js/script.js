@@ -40,8 +40,10 @@ function enableRow(rowID) {
   // enable inputs when edit button is clicked
   let tdList = Array.from(document.getElementById(rowID).children);
   tdList.forEach((td) => {
-    if (td.firstChild.tagName === "INPUT") {
-      td.firstChild.disabled = false;
+    let element = td.firstElementChild;
+    if (element.name != "_animal_id" && element.tagName === "INPUT" || element.tagName === "SELECT") {
+      element.disabled = false;
+      element.className += " editable";
     }
   });
 };
