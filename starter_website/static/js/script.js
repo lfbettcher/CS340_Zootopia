@@ -108,9 +108,10 @@ function enableRow(rowID) {
   });
 };
 
-const searchClicked = document.getElementById("search_button");
-searchClicked.addEventListener("click", function() {
-document.getElementById("demo").innerHTML = "Hello World";});
+// Huber -- under construction. . .
+//const searchClicked = document.getElementById("search_button");
+//searchClicked.addEventListener("click", function() {
+//document.getElementById("demo").innerHTML = "Hello World";});
 
 // function onUpdate(event, id) {
 //   let payload = { id: id };

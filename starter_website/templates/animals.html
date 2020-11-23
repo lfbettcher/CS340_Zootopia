@@ -3,7 +3,6 @@
 
 {% block title %}Animals{% endblock %}
 {% block content %}
-<h3>Animals</h3>
 
 <!-- confirmation message when table is edited -->
 {% with messages = get_flashed_messages() %}
@@ -18,6 +17,8 @@
 {% endfor %}
 {% endif %}
 {% endwith %}
+
+<h3>Animals</h3>
 
 <table id="animalTable">
   <thead>
@@ -82,7 +83,12 @@
     <td><input type="number" name="med_id" value="{{ r[0] }}" style="min-width: 2em" disabled="true"></td>
     <td><input type="text" name="name" value="{{ r[1] }}" disabled="true"></td>
     <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
-    <td><button type='submit' class='delete-btn' name='Delete' value='Delete'>Delete</button></td>
+    <td>
+      <form action="{{url_for('delete_medication', id=r[0])}}" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" class='delete-btn' name='Delete' value="Delete">
+      </form>
+    </td>
   </tr>
   {% endfor %}
   </tbody>
@@ -185,10 +191,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
+        <form action="/add_medication" method="POST">
           <div class="form-group">
-            <label>Medication name:</label>
-            <input type="text" class="form-control" name="med_name" required="1">
+            <label>Medication Name:</label>
+            <input type="text" class="form-control" name="name" required="1">
           </div>
           <div class="form-group">
             <button class="update-btn" type="submit">Add Medication</button>
@@ -213,17 +219,23 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
+        <form action="/add_animal_medication" method="POST">
           <div class="form-group">
-            <label>Zookeeper ID:</label>
-            <input type="number" class="form-control" name="zookeeper_id" required="1">
+            <label for="animal_id">Animal:</label>
+            <select class="form-control" id="animal_id" name="animal_id">
+              {% for r in rows_animals %}
+              <option value="{{ r[0] }}">{{ r[3] }}</option>
+              {% endfor %}
+            </select>
+            <label for="med_id">Medication:</label>
+            <select class="form-control" id="med_id" name="med_id">
+              {% for r in rows_medications %}
+              <option value="{{ r[0] }}">{{ r[1] }}</option>
+              {% endfor %}
+            </select>
           </div>
           <div class="form-group">
-            <label>Workday ID:</label>
-            <input type="number" class="form-control" name="workday_id" required="1">
-          </div>
-          <div class="form-group">
-            <button class="update-btn" type="submit">Add Zookeeper Workday</button>
+            <button class="update-btn" type="submit">Add Animal Medication</button>
           </div>
         </form>
       </div>
