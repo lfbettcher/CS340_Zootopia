@@ -11,6 +11,7 @@ def index():
     return render_template('index.html')
 
 
+
 @webapp.route('/animals')
 def animals():
     print("Fetching and rendering Animals web page")
@@ -184,6 +185,37 @@ def zookeepers():
     return render_template('zookeepers.html', rows_zookeepers=result_zookeepers,
                             rows_workdays=result_workdays,
                             rows_zookeepers_workdays=result_zookeepers_workdays)
+
+@webapp.route('/search', methods=['POST'])
+def search_Animals():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        request_json = request.get_json()
+
+        print(request_json)
+
+        searchString = "%" + request_json.get("searchString") + "%"
+
+        search_query = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR last_name LIKE %s;"
+        data = (searchString, searchString, searchString, searchString, searchString, searchString, searchString, searchString)
+        result_search = execute_query(db_connection, search_query, data).fetchall()
+
+        query_medications = "SELECT med_id, name FROM Medications;"
+        result_medications = execute_query(db_connection, query_medications).fetchall()
+        # print(result_medications)
+
+        query_animals_meds = "SELECT id, Animals.name, Medications.name FROM Animals_Medications INNER JOIN Animals ON Animals_Medications.animal_id = Animals.animal_id INNER JOIN Medications ON Animals_Medications.med_id = Medications.med_id;"
+        result_animals_meds = execute_query(db_connection, query_animals_meds).fetchall()
+        # print(result_animals_meds)
+
+        query_zookeepers = "SELECT zookeeper_id, first_name, last_name FROM Zookeepers;"
+        result_zookeepers = execute_query(db_connection, query_zookeepers).fetchall()
+
+        return render_template('animals.html',
+                                rows_animals=result_search,
+                                rows_medications=result_medications,
+                                rows_animals_meds=result_animals_meds,
+                                rows_zookeepers=result_zookeepers)
 
 
 @webapp.route('/browse_bsg_people')

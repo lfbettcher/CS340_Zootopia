@@ -6,6 +6,9 @@ animalTable.addEventListener("click", (event) => {
     enableRow(event.target.parentNode.parentNode.id);
     toggleEditButton(event.target);
   }
+  if (event.target.name === "Search") {
+    runSearch();
+  }
 });
 
 const medTable = document.getElementById("medTable");
@@ -43,10 +46,6 @@ function enableRow(rowID) {
   });
 };
 
-const searchClicked = document.getElementById("search_button");
-searchClicked.addEventListener("click", function() {
-document.getElementById("demo").innerHTML = "Hello World";});
-
 function disableRow(rowID) {
   // disable inputs when save button is clicked
   let tdList = Array.from(document.getElementById(rowID).children);
@@ -65,10 +64,21 @@ function disableAllInput() {
   });
 };
 
-// Huber -- under construction. . .
-//const searchClicked = document.getElementById("search_button");
-//searchClicked.addEventListener("click", function() {
-//document.getElementById("demo").innerHTML = "Hello World";});
+function runSearch() {
+  var searchString = document.getElementById("search_inputs");
+    var searchObject = {
+    searchString: searchString.value
+    };
+
+    console.log(searchObject);
+    fetch(`/search`, {
+      method: "POST",
+      body: JSON.stringify(searchObject),
+      headers: new Headers({
+        "content-type": "application/json"
+      })
+    })
+}
 
 // function onUpdate(event, id) {
 //   let payload = { id: id };
