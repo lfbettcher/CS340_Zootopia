@@ -25,6 +25,10 @@ header {
   background-color: var(--green-dark);
 }
 
+.hidden {
+  display: none;
+}
+
 .nav-list {
   padding: 0;
   display: flex;

@@ -41,26 +41,25 @@ def animals():
 def update_animal():
     db_connection = connect_to_database()
     if request.method == 'POST':
-        print("Incoming post in update_animal")
-        update_data = request.get_json()
-        animal_id = update_data['animal_id']
-        type = update_data['type']
-        sex = update_data['sex']
-        name = update_data['name']
-        age = update_data['age']
-        weight = update_data['weight']
-        temperament = update_data['temperament']
-        zookeeper_id = update_data['zookeeper_id']
+        animal_id = request.form['animal_id']
+        type = request.form['type']
+        sex = request.form['sex']
+        name = request.form['name']
+        age = request.form['age']
+        weight = request.form['weight']
+        temperament = request.form['temperament']
+        zookeeper_last_name = request.form['last_name']
 
-        # Updating animal_id does not work
+        # get zookeeper_id
+        zookeeper_query = "SELECT zookeeper_id FROM Zookeepers WHERE last_name = '%s';" % (zookeeper_last_name)
+        zookeeper_result = execute_query(db_connection, zookeeper_query).fetchone()
+        zookeeper_id = zookeeper_result[0]
+
+        # TODO - updating animal_id does not work?
         query = "UPDATE Animals SET animal_id = %s, type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s WHERE animal_id = %s;"
         data = (animal_id, type, sex, name, age, weight, temperament, zookeeper_id, animal_id)
         result = execute_query(db_connection, query, data)
-        print("====================")
-        print(str(result.rowcount) + " row(s) updated")
 
-        # TODO: handle failed UPDATE and make flash message work
-        flash("why doesn't flash work here?")
         if result is None:
             flash("Could not UPDATE")
         else:

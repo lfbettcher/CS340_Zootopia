@@ -19,6 +19,7 @@
 {% endif %}
 {% endwith %}
 
+<form id="updateAnimal" action="/update_animal" method="POST">
 <table id="animalTable">
   <thead>
   <col>
@@ -42,22 +43,25 @@
   <tbody>
   {% for r in rows_animals %}
   <tr id="animal{{ loop.index }}">
-    <td><input type="number" name="animal_id" value="{{ r[0] }}" disabled="true"></td>
-    <td><input type="text" name="type" value="{{ r[1] }}" disabled="true"></td>
-    <td><input type="text" name="sex" value="{{ r[2] }}" maxlength="1" style="min-width: 1em" disabled="true"></td>
-    <td><input type="text" name="name" value="{{ r[3] }}" disabled="true"></td>
-    <td><input type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
-    <td><input type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
-    <td><input type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
-    <td><input type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>
-    <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
+    <td><input form="updateAnimal" type="number" name="animal_id" value="{{ r[0] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="type" value="{{ r[1] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="sex" value="{{ r[2] }}" maxlength="1" style="min-width: 1em" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="name" value="{{ r[3] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>
+    <td>
+      <button form="updateAnimal" type="submit" class="update-btn hidden" name="Save">Save</button>
+      <button form="updateAnimal" type="button" class="update-btn" name="Edit">Edit</button>
+    </td>
     <!-- Huber Revision Start -->
 <!--    <td><button type='submit' class='delete-btn' name='Delete'>Delete</button></td>-->
 
     <td>
-      <form action="{{url_for('delete_animal', id=r[0])}}" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" class='delete-btn' name='Delete' value="Delete">
+      <form id="deleteAnimal" action="{{url_for('delete_animal', id=r[0])}}" method="post">
+        <input form="deleteAnimal" type="hidden" name="_method" value="DELETE">
+        <input form="deleteAnimal" type="submit" class='delete-btn' name='Delete' value="Delete">
       </form>
     </td>
 <!-- Huber Revision End -->
@@ -68,7 +72,7 @@
   </tr>
   </tbody>
 </table>
-
+</form>
 <h3>Medications</h3>
 <table id="medTable">
   <thead>
