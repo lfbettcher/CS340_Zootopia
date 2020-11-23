@@ -84,7 +84,7 @@ def add_animal():
         data = (type, sex, name, age, weight, temperament, zookeeper_id)
         execute_query(db_connection, query, data)
 
-        flash("Animal added successfully")
+        flash("Animal added successfully!")
         return redirect('/animals')
 
 # -- Huber Revision Start --
@@ -108,9 +108,62 @@ def delete_animal(id):
     query = "DELETE FROM Animals WHERE animal_id = %s"
     execute_query(db_connection, query, [id])
 
-    flash('Animal deleted successfully', 'success')
+    flash('Animal deleted successfully!', 'success')
     return redirect('/animals')
 # -- Huber Revision End --
+
+@webapp.route('/add_medication', methods=['POST', 'GET'])
+def add_medication():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        med_id = 'DEFAULT'
+        name = request.form['name']
+
+        query = 'INSERT INTO Medications (med_id, name) VALUES (%s, %s)'
+        data = (med_id, name)
+        execute_query(db_connection, query, data)
+
+        flash("Medication added successfully!")
+        return redirect('/animals')
+
+# @webapp.route('/update_medication', methods=['POST'])
+# def update_medication():
+#     db_connection = connect_to_database()
+#     if request.method == 'POST'
+#         med_id = Medications.query.filter_by(id=request.form['id']).first()
+#         name = request.form['name']
+#
+#         query = 'UPDATE Medications SET name = %s WHERE med_id = %s;'
+#         data = (med_id, name)
+#         execute_query(db_connection, query, data)
+#
+#         flash("Medication updated successfully!")
+#         return redirect('/animals')
+
+@webapp.route('/delete_medication/<string:id>', methods=['POST'])
+def delete_medication(id):
+    db_connection = connect_to_database()
+    print("Incoming post in delete_medication")
+    query = "DELETE FROM Medications WHERE med_id = %s"
+    execute_query(db_connection, query, [id])
+
+    flash('Medication deleted successfully!', 'success')
+    return redirect('/animals')
+
+@webapp.route('/add_animal_medication', methods=['POST', 'GET'])
+def add_animal_medication():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        id = 'DEFAULT'
+        animal_id = request.form['animal_id']
+        med_id = request.form['med_id']
+
+        query = 'INSERT INTO Animals_Medications (id, animal_id, med_id) VALUES (%s, %s, %s)'
+        data = (id, animal_id, med_id)
+        execute_query(db_connection, query, data)
+
+        flash("Animal medication added successfully!")
+        return redirect('/animals')
 
 @webapp.route('/zookeepers')
 def zookeepers():

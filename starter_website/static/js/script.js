@@ -64,3 +64,53 @@ function disableAllInput() {
     input.disabled = true;
   });
 };
+<<<<<<< HEAD
+=======
+
+// Huber -- under construction. . .
+//const searchClicked = document.getElementById("search_button");
+//searchClicked.addEventListener("click", function() {
+//document.getElementById("demo").innerHTML = "Hello World";});
+
+// function onUpdate(event, id) {
+//   let payload = { id: id };
+//   let inputs = document.querySelectorAll(
+//     `[id='${id}'] input:not([type=submit]):not([type=radio]),
+//               [id='${id}'] input[type=radio]:checked`
+//   );
+//   inputs.forEach((input) => {
+//     payload[input.name] = input.value;
+//   });
+//   $.ajax({
+//     type: "POST",
+//     contentType: "application/json",
+//     url: "/test_table/update,
+//     traditional: "true",
+//     data: JSON.stringify(payload),
+//     dataType: "json"
+//   });
+//   // makeRequest("PUT", payload, baseURL);
+//   event.preventDefault();
+// }
+//
+// function makeRequest(type, payload, url) {
+//   let req = new XMLHttpRequest();
+//   req.open(type, url, true);
+//   req.setRequestHeader("Content-Type", "application/json");
+//   req.addEventListener("load", () => {
+//     if (req.status >= 200 && req.status < 400) {
+//       let response = JSON.parse(req.responseText);
+//       deleteTable();
+//       makeTable(response);
+//     } else {
+//       console.log("Error: " + req.statusText);
+//     }
+//   });
+//   req.send(JSON.stringify(payload));
+// }
+//
+// document.getElementById("reset-table").addEventListener("click", (event) => {
+//   makeRequest("GET", null, baseURL + "reset-table");
+//   event.preventDefault();
+// });
+>>>>>>> 731e1007cadfc5c944531a63015764e1a8fad0cc
