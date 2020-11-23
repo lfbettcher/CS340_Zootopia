@@ -38,7 +38,7 @@ function enableRow(rowID) {
   let tdList = Array.from(document.getElementById(rowID).children);
   tdList.forEach((td) => {
     let element = td.firstElementChild;
-    if (element.tagName === "INPUT" || element.tagName === "SELECT") {
+    if (element.name != "_animal_id" && element.tagName === "INPUT" || element.tagName === "SELECT") {
       element.disabled = false;
       element.className += " editable";
     }
