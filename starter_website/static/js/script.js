@@ -64,8 +64,6 @@ function disableAllInput() {
     input.disabled = true;
   });
 };
-<<<<<<< HEAD
-=======
 
 // Huber -- under construction. . .
 //const searchClicked = document.getElementById("search_button");
@@ -113,4 +111,3 @@ function disableAllInput() {
 //   makeRequest("GET", null, baseURL + "reset-table");
 //   event.preventDefault();
 // });
->>>>>>> 731e1007cadfc5c944531a63015764e1a8fad0cc
