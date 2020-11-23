@@ -50,7 +50,14 @@
     <td><input form="updateAnimal" type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
     <td><input form="updateAnimal" type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
     <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
-    <td><input form="updateAnimal" type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>
+<!--    <td><input form="updateAnimal" type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>-->
+    <td>
+      <select form="updateAnimal" name="zookeeper_id" style="min-width: 7em" disabled="true">
+        {% for z in rows_zookeepers %}
+        <option value="{{ z[0] }}" {{ 'selected' if r[7] == z[2] }}>{{ z[2] }}</option>
+        {% endfor %}
+      </select>
+    </td>
     <td>
       <button form="updateAnimal" type="submit" class="update-btn hidden" name="Save">Save</button>
       <button form="updateAnimal" type="button" class="update-btn" name="Edit">Edit</button>
