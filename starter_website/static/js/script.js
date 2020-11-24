@@ -1,70 +1,70 @@
 // Listeners for edit buttons
 const animalTable = document.getElementById("animalTable");
 animalTable.addEventListener("click", (event) => {
-  if (event.target.tagName !== "BUTTON") return;
-  if (event.target.name === "Edit") {
-    enableRow(event.target.parentNode.parentNode.id);
-    toggleEditButton(event.target);
-  }
-  if (event.target.name === "Search") {
-    runSearch();
-  }
+    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.name === "Edit") {
+        enableRow(event.target.parentNode.parentNode.id);
+        toggleEditButton(event.target);
+    }
+    if (event.target.name === "Search") {
+        runSearch();
+    }
 });
 
 
 const medTable = document.getElementById("medTable");
 medTable.addEventListener("click", (event) => {
-  if (event.target.tagName !== "BUTTON") return;
-  if (event.target.name === "Edit") {
-    enableRow(event.target.parentNode.parentNode.id);
-    toggleEditButton(event.target);
-  }
+    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.name === "Edit") {
+        enableRow(event.target.parentNode.parentNode.id);
+        toggleEditButton(event.target);
+    }
 });
 
 const animalMedTable = document.getElementById("animalMedTable");
 animalMedTable.addEventListener("click", (event) => {
-  if (event.target.tagName !== "BUTTON") return;
-  if (event.target.name === "Edit") {
-    enableRow(event.target.parentNode.parentNode.id);
-    toggleEditButton(event.target);
-  }
+    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.name === "Edit") {
+        enableRow(event.target.parentNode.parentNode.id);
+        toggleEditButton(event.target);
+    }
 });
 
 function toggleEditButton(button) {
-  if (button.textContent === "Edit") {
-    button.className = "update-btn hidden";
-    button.previousElementSibling.className = "update-btn";
-  }
+    if (button.textContent === "Edit") {
+        button.className = "update-btn hidden";
+        button.previousElementSibling.className = "update-btn";
+    }
 };
 
 function enableRow(rowID) {
-  // enable inputs when edit button is clicked
-  let tdList = Array.from(document.getElementById(rowID).children);
-  tdList.forEach((td) => {
-    let element = td.firstElementChild;
-    if (element.name != "_animal_id" && element.tagName === "INPUT" || element.tagName === "SELECT") {
-      element.disabled = false;
-      element.className += " editable";
-    }
-  });
+    // enable inputs when edit button is clicked
+    let tdList = Array.from(document.getElementById(rowID).children);
+    tdList.forEach((td) => {
+        let element = td.firstElementChild;
+        if (element.name != "_animal_id" && element.tagName === "INPUT" || element.tagName === "SELECT") {
+            element.disabled = false;
+            element.className += " editable";
+        }
+    });
 };
 
 function disableRow(rowID) {
-  // disable inputs when save button is clicked
-  let tdList = Array.from(document.getElementById(rowID).children);
-  tdList.forEach((td) => {
-    // console.log(td.firstChild.tagName);
-    if (td.firstChild.tagName === "INPUT") {
-      td.firstChild.disabled = true;
-    }
-  });
+    // disable inputs when save button is clicked
+    let tdList = Array.from(document.getElementById(rowID).children);
+    tdList.forEach((td) => {
+        // console.log(td.firstChild.tagName);
+        if (td.firstChild.tagName === "INPUT") {
+            td.firstChild.disabled = true;
+        }
+    });
 };
 
 function disableAllInput() {
-  // disable inputs in table until update button is clicked
-  document.querySelectorAll("tbody input").forEach((input) => {
-    input.disabled = true;
-  });
+    // disable inputs in table until update button is clicked
+    document.querySelectorAll("tbody input").forEach((input) => {
+        input.disabled = true;
+    });
 };
 
 // function runSearch() {
@@ -83,16 +83,17 @@ function disableAllInput() {
 //     });
 // };
 
-function runSearch(){
-  var searchString = document.getElementById("search_inputs");
-  var searchedString = searchString.value;
-  var searchObject = {
-    searchString: searchedString
-  };
-  searchString.value = searchedString;
-  searchedString.disabled = true;
-  post(`/search`, searchObject);
+function runSearch() {
+    var searchString = document.getElementById("search_inputs");
+    var searchedString = searchString.value;
+    var searchObject = {
+        searchString: searchedString
+    };
+    searchString.value = searchedString;
+    searchedString.disabled = true;
+    post(`/search`, searchObject);
 }
+
 
 /**
  * REF: https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
@@ -101,27 +102,27 @@ function runSearch(){
  * @param {object} params the paramiters to add to the url
  * @param {string} [method=post] the method to use on the form
  */
-function post(path, params, method='post') {
+function post(path, params, method = 'post') {
 
-  // The rest of this code assumes you are not using a library.
-  // It can be made less wordy if you use one.
-  const form = document.createElement('form');
-  form.method = method;
-  form.action = path;
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    const form = document.createElement('form');
+    form.method = method;
+    form.action = path;
 
-  for (const key in params) {
-    if (params.hasOwnProperty(key)) {
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
-      hiddenField.name = key;
-      hiddenField.value = params[key];
+    for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            hiddenField.value = params[key];
 
-      form.appendChild(hiddenField);
+            form.appendChild(hiddenField);
+        }
     }
-  }
 
-  document.body.appendChild(form);
-  form.submit();
+    document.body.appendChild(form);
+    form.submit();
 }
 
 // function onUpdate(event, id) {
