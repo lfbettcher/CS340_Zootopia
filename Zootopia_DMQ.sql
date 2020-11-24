@@ -90,14 +90,14 @@ DELETE FROM Zookeepers_Workdays WHERE zookeeper_id = %s AND workday_id = %s;
 
 -- -- -- -- -- -- -- Search Animals Table -- -- -- -- -- -- -- -- -- -- -- -- --
 -- The following Animals query will return any full rows that contain search
--- string. NOTE: to perform this search in MariaDB replace 's' below with a
+-- string. NOTE: to perform this search in MariaDB replace '%s' below with a
 -- string:
 SELECT * FROM Animals WHERE
-    animal_id LIKE %s% OR
-    type LIKE %s% OR
-    sex LIKE %s% OR
-    name LIKE %s% OR
-    age LIKE %s% OR
-    weight LIKE %s% OR
-    temperament LIKE %s% OR
-    zookeeper_id LIKE %s%;
+    animal_id LIKE %s OR
+    type LIKE %s OR
+    sex LIKE %s OR
+    name LIKE %s OR
+    age LIKE %s OR
+    weight LIKE %s OR
+    temperament LIKE %s OR
+    zookeeper_id LIKE %s;

@@ -25,7 +25,7 @@
   <col>
   <colgroup span="8"></colgroup>
   <tr>
-    <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" placeholder='Search Animals Table (examples: "Lion", "1", "Friend", "M", etc)...' name="search"></th>
+    <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" placeholder='Search Animals Table (examples: "Lion", "M", "543", etc)...' name="search" onkeypress="return event.keyCode != 13;"></th>
     <th scope="colgroup"><button id="search_button" type="button" name="Search" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search" name="Search"></i></button></th>
     <th scope="colgroup"><button id="reset_search" type="button" name="reset_search" data-toggle="modal" data-target="" class="search-btn" onclick="location.href='/animals'">Reset</button></th>
   </tr>
