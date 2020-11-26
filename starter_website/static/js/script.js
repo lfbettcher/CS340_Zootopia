@@ -10,7 +10,7 @@ animalTable.addEventListener("click", (event) => {
     if (event.target.name === "Search")
         runSearch();
     if (event.target.name === "Delete")
-        deleteAnimal(event.target.value);   // send animal id as arg to function
+        runDelete(event, 'Animals');
 });
 
 
@@ -79,12 +79,43 @@ function runSearch() {
     post(`/search`, searchObject);
 }
 
-// receives animal_id value, creates object and posts to path shown
-function deleteAnimal(id) {
-    var animalObject = {
-        animal_id: id
-    };
-    post(`/delete_animal`, animalObject);
+/**
+ * @param {event} clicked event (used to get value of row)
+ * @param {string} tableName is name of table to delete from (used for path url)
+ */
+function runDelete(event, tableName) {
+    var entityID = event.target.value;
+    if (tableName === 'Animals') {
+        var animalObject = {
+            animal_id: entityID
+        };
+        console.log(animalObject);
+        post('/delete_animal', animalObject);
+    }
+    if (tableName === 'Medications') {
+        var medObject = {
+            med_id: entityID
+        };
+        post('/delete_medications', medObject);
+    }
+    if (tableName === 'Animals_Medications') {
+        var animalMedObject = {
+            id: entityID
+        };
+        post('/delete_animals_medications', animalMedObject);
+    }
+    if (tableName === 'Zookeepers') {
+        var zookeeperObject = {
+            zookeeper_id: entityID
+        };
+        post('/delete_zookeeper', zookeeperObject);
+    }
+    if (tableName === 'Zookeepers_Workdays') {
+        var zookeeperWorkdayObject = {
+            id: entityID
+        };
+        post('/delete_zookeeper_workday', zookeeperWorkdayObject);
+    }
 }
 
 /**

@@ -3,7 +3,21 @@
 
 {% block title %}Zookeepers{% endblock %}
 {% block content %}
-<!--<h3><a href='/add_new_zookeeper'>Add new zookeeper</a></h3> for updates later -->
+
+<!-- confirmation message when table is edited -->
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissable" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
 <h3>Zookeepers</h3>
 <table id="zookeeperTable">
   <thead>
@@ -18,6 +32,29 @@
     <td><input type="number" name="zookeeper_id" value="{{ r[0] }}" style="min-width: 2em"  disabled="true"></td>
     <td><input type="text" name="first_name" value="{{ r[1] }}" disabled="true"></td>
     <td><input type="text" name="last_name" value="{{ r[2] }}" disabled="true"></td>
+    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>
+    <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h3>Zookeepers Workdays (Relationship Table)</h3>
+<table id="zookeeperWorkdayTable">
+  <thead>
+  <th style="display:none;">ID</th>
+  <th>Zookeeper</th>
+  <th>Workday</th>
+  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeperworkday" class="add-btn" name="Add" value="Add">Add</button></th>
+  </thead>
+  <tbody>
+  {% for r in rows_zookeepers_workdays %}
+  <tr id="zookeeperWorkday{{ loop.index }}">
+    <td class="hidden"> {{ r[0] }}</td>
+    <td class="hidden"><input class="hidden" type="number" name="zookeeper_id" value="{{ r[1] }}" style="min-width: 2em" disabled="true"></td>
+    <td><input type="text" name="zookeeper_name" value="{{ r[1] }} {{ r[2] }}" disabled="true"></td>
+    <td class="hidden"><input class="hidden" type="number" name="workday_id" value="{{ r[2] }}" style="min-width: 2em" disabled="true"></td>
+    <td><input type="text" name="day" value="{{ r[4] }}" disabled="true"></td>
     <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>
     <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>
   </tr>
@@ -44,27 +81,6 @@
   </tbody>
 </table>
 
-<h3>Zookeepers Workdays (Relationship Table)</h3>
-<table id="zookeeperWorkdayTable">
-  <thead>
-  <th style="display:none;">ID</th>
-  <th>Zookeeper ID</th>
-  <th>Workday ID</th>
-  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeperworkday" class="add-btn" name="Add" value="Add">Add</button></th>
-  </thead>
-  <tbody>
-  {% for r in rows_zookeepers_workdays %}
-  <tr id="zookeeperWorkday{{ loop.index }}">
-    <td  style="display:none;"> {{ r[0] }}</td>
-    <td><input type="number" name="zookeeper_id" value="{{ r[1] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="number" name="workday_id" value="{{ r[2] }}" style="min-width: 2em" disabled="true"></td>
-    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>
-    <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>
-  </tr>
-  {% endfor %}
-  </tbody>
-</table>
-
 <!--Modal Add Zookeeper-->
 <div class="modal fade" id="addzookeeper" tabindex="-1" role="dialog" aria-labelledby="addzookeeperModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -76,7 +92,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
+        <form action="/add_zookeeper" method="POST">
           <div class="form-group">
             <label>First Name:</label>
             <input type="text" class="form-control" name="first_name" required="1">
@@ -87,6 +103,44 @@
           </div>
           <div class="form-group">
             <button class="update-btn" type="submit">Add Zookeeper</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="delete-btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal Add Zookeeper Workday-->
+<div class="modal fade" id="addzookeeperworkday" tabindex="-1" role="dialog" aria-labelledby="addzookeeperworkdayModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addzookeeperworkdayModalLongTitle">Add Zookeeper Workday</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/add_zookeeper_workday" method="POST">
+          <div class="form-group">
+            <label for="zookeeper_id">Zookeeper:</label>
+            <select class="form-control" id="zookeeper_id" name="zookeeper_id">
+              {% for r in rows_zookeepers %}
+              <option value="{{ r[0] }}">{{ r[1] }} {{ r[2] }}</option>
+              {% endfor %}
+            </select>
+            <label for="workday_id">Workday:</label>
+            <select class="form-control" id="workday_id" name="workday_id">
+              {% for r in rows_workdays %}
+              <option value="{{ r[0] }}">{{ r[1] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <button class="update-btn" type="submit">Add Zookeeper Workday</button>
           </div>
         </form>
       </div>
@@ -124,37 +178,4 @@
     </div>
   </div>
 </div>
-
-<!--Modal Add Zookeeper Workday-->
-<div class="modal fade" id="addzookeeperworkday" tabindex="-1" role="dialog" aria-labelledby="addzookeeperworkdayModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addzookeeperworkdayModalLongTitle">Add Zookeeper Workday</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="" method="POST">
-          <div class="form-group">
-            <label>Zookeeper ID:</label>
-            <input type="number" class="form-control" name="zookeeper_id" required="1">
-          </div>
-          <div class="form-group">
-            <label>Workday ID:</label>
-            <input type="number" class="form-control" name="workday_id" required="1">
-          </div>
-          <div class="form-group">
-            <button class="update-btn" type="submit">Add Zookeeper Workday</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="delete-btn" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 {% endblock %}

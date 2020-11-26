@@ -10,6 +10,7 @@ webapp.secret_key = "Secret Key"
 def index():
     return render_template('index.html')
 
+
 @webapp.route('/animals')
 def animals():
     print("Fetching and rendering Animals web page")
@@ -30,13 +31,13 @@ def animals():
     result_zookeepers = execute_query(db_connection, query_zookeepers).fetchall()
 
     return render_template('animals.html',
-                            rows_animals=result_animals,
-                            rows_medications=result_medications,
-                            rows_animals_meds=result_animals_meds,
-                            rows_zookeepers=result_zookeepers)
+                           rows_animals=result_animals,
+                           rows_medications=result_medications,
+                           rows_animals_meds=result_animals_meds,
+                           rows_zookeepers=result_zookeepers)
 
 
-@webapp.route('/update_animal', methods=['POST', 'GET'])
+@webapp.route('/update_animal', methods=['POST'])
 def update_animal():
     db_connection = connect_to_database()
     if request.method == 'POST':
@@ -49,14 +50,8 @@ def update_animal():
         temperament = request.form['temperament']
         zookeeper_id = request.form['zookeeper_id']
 
-        # get zookeeper_id
-        # zookeeper_query = "SELECT zookeeper_id FROM Zookeepers WHERE last_name = '%s';" % (zookeeper_last_name)
-        # zookeeper_result = execute_query(db_connection, zookeeper_query).fetchone()
-        # zookeeper_id = zookeeper_result[0]
-
-        # TODO - updating animal_id does not work?
-        query = "UPDATE Animals SET animal_id = %s, type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s WHERE animal_id = %s;"
-        data = (animal_id, type, sex, name, age, weight, temperament, zookeeper_id, animal_id)
+        query = "UPDATE Animals SET type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s WHERE animal_id = %s;"
+        data = (type, sex, name, age, weight, temperament, zookeeper_id, animal_id)
         result = execute_query(db_connection, query, data)
 
         if result is None:
@@ -86,31 +81,15 @@ def add_animal():
         flash("Animal added successfully!")
         return redirect('/animals')
 
-# -- Huber Revision Start --
-# @webapp.route('/delete_animal', methods=['POST', 'GET'])
-# def delete_animal():
-#     db_connection = connect_to_database()
-#     print("Incoming post in delete_animal")
-#     update_data = request.get_json()
-#     animal_id = update_data['animal_id']
-#     query = "DELETE FROM Animals WHERE animal_id = %s"
-#     data = (animal_id,)
-#     result = execute_query(db_connection, query, data)
-#     print(str(result.rowcount) + " row deleted")
-#     flash(str(result.rowcount) + " row deleted")
-#     return redirect('/animals')
-
 @webapp.route('/delete_animal', methods=['POST'])
 def delete_animal():
     db_connection = connect_to_database()
     animal_id = request.form['animal_id']
-    delete_query = "DELETE FROM Animals WHERE animal_id = %s;"
-    data = (animal_id)
-    execute_query(db_connection, delete_query, data)
+    delete_query = "DELETE FROM Animals WHERE animal_id = %s;" % animal_id
+    execute_query(db_connection, delete_query)
 
     flash('Animal deleted successfully!', 'success')
     return redirect('/animals')
-# -- Huber Revision End --
 
 @webapp.route('/add_medication', methods=['POST', 'GET'])
 def add_medication():
@@ -140,6 +119,7 @@ def add_medication():
 #         flash("Medication updated successfully!")
 #         return redirect('/animals')
 
+
 @webapp.route('/delete_medication/<string:id>', methods=['POST'])
 def delete_medication(id):
     db_connection = connect_to_database()
@@ -149,6 +129,7 @@ def delete_medication(id):
 
     flash('Medication deleted successfully!', 'success')
     return redirect('/animals')
+
 
 @webapp.route('/add_animal_medication', methods=['POST', 'GET'])
 def add_animal_medication():
@@ -165,6 +146,7 @@ def add_animal_medication():
         flash("Animal medication added successfully!")
         return redirect('/animals')
 
+
 @webapp.route('/zookeepers')
 def zookeepers():
     # print("Fetching and rendering Zookeepers web page")
@@ -177,13 +159,46 @@ def zookeepers():
     result_workdays = execute_query(db_connection, query_workdays).fetchall()
     # print(result_workdays)
 
-    query_zookeepers_workdays = "SELECT id, zookeeper_id, workday_id FROM Zookeepers_Workdays;"
+    query_zookeepers_workdays = "SELECT Zookeepers_Workdays.zookeeper_id, first_name, last_name, Zookeepers_Workdays.workday_id, day FROM Zookeepers_Workdays INNER JOIN Zookeepers ON Zookeepers_Workdays.zookeeper_id = Zookeepers.zookeeper_id INNER JOIN Workdays ON Zookeepers_Workdays.workday_id = Workdays.workday_id ORDER BY Zookeepers_Workdays.workday_id, Zookeepers.last_name ASC;"
     result_zookeepers_workdays = execute_query(db_connection, query_zookeepers_workdays).fetchall()
     # print(result_zookeepers_workdays)
 
-    return render_template('zookeepers.html', rows_zookeepers=result_zookeepers,
-                            rows_workdays=result_workdays,
-                            rows_zookeepers_workdays=result_zookeepers_workdays)
+    return render_template('zookeepers.html',
+                           rows_zookeepers=result_zookeepers,
+                           rows_workdays=result_workdays,
+                           rows_zookeepers_workdays=result_zookeepers_workdays)
+
+
+@webapp.route('/add_zookeeper', methods=['POST'])
+def add_zookeeper():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+
+        query = 'INSERT INTO Zookeepers (first_name, last_name) VALUES (%s, %s)'
+        data = (first_name, last_name)
+        execute_query(db_connection, query, data)
+
+        flash("Zookeeper added successfully!")
+        return redirect('/zookeepers')
+
+
+@webapp.route('/add_zookeeper_workday', methods=['POST'])
+def add_zookeeper_workday():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        zookeeper_id = request.form['zookeeper_id']
+        workday_id = request.form['workday_id']
+
+        query = 'INSERT INTO Zookeepers_Workdays (zookeeper_id, workday_id) VALUES (%s, %s)'
+
+        data = (zookeeper_id, workday_id)
+        execute_query(db_connection, query, data)
+
+        flash("Zookeeper Workday added successfully!")
+        return redirect('/zookeepers')
+
 
 @webapp.route('/search', methods=['POST'])
 def search_Animals():
@@ -214,42 +229,10 @@ def search_Animals():
             return redirect('/animals')
 
         return render_template('animals.html',
-                        rows_animals=result_search,
-                        rows_medications=result_medications,
-                        rows_animals_meds=result_animals_meds,
-                        rows_zookeepers=result_zookeepers)
-
-
-@webapp.route('/browse_bsg_people')
-def browse_people():
-    print("Fetching and rendering people web page")
-    db_connection = connect_to_database()
-    query = "SELECT fname, lname, homeworld, age, id from bsg_people;"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('people_browse.html', rows=result)
-
-
-@webapp.route('/add_new_people', methods=['POST','GET'])
-def add_new_people():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT id, name from bsg_planets'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('people_add_new.html', planets = result)
-    elif request.method == 'POST':
-        print("Add new people!")
-        fname = request.form['fname']
-        lname = request.form['lname']
-        age = request.form['age']
-        homeworld = request.form['homeworld']
-
-        query = 'INSERT INTO bsg_people (fname, lname, age, homeworld) VALUES (%s,%s,%s,%s)'
-        data = (fname, lname, age, homeworld)
-        execute_query(db_connection, query, data)
-        return ('Person added!')
+                               rows_animals=result_search,
+                               rows_medications=result_medications,
+                               rows_animals_meds=result_animals_meds,
+                               rows_zookeepers=result_zookeepers)
 
 
 @webapp.route('/home')
@@ -265,7 +248,7 @@ def home():
     result = execute_query(db_connection, query)
     for r in result:
         print(f"{r[0]}, {r[1]}")
-    return render_template('home.html', result = result)
+    return render_template('home.html', result=result)
 
 
 @webapp.route('/db_test')
@@ -275,49 +258,3 @@ def test_database_connection():
     query = "SELECT * from bsg_people;"
     result = execute_query(db_connection, query)
     return render_template('db_test.html', rows=result)
-
-
-#display update form and process any updates, using the same function
-@webapp.route('/update_people/<int:id>', methods=['POST','GET'])
-def update_people(id):
-    print('In the function')
-    db_connection = connect_to_database()
-    #display existing data
-    if request.method == 'GET':
-        print('The GET request')
-        people_query = 'SELECT id, fname, lname, homeworld, age from bsg_people WHERE id = %s'  % (id)
-        people_result = execute_query(db_connection, people_query).fetchone()
-
-        if people_result == None:
-            return "No such person found!"
-
-        planets_query = 'SELECT id, name from bsg_planets'
-        planets_results = execute_query(db_connection, planets_query).fetchall()
-
-        print('Returning')
-        return render_template('people_update.html', planets = planets_results, person = people_result)
-    elif request.method == 'POST':
-        print('The POST request')
-        character_id = request.form['character_id']
-        fname = request.form['fname']
-        lname = request.form['lname']
-        age = request.form['age']
-        homeworld = request.form['homeworld']
-
-        query = "UPDATE bsg_people SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE id = %s"
-        data = (fname, lname, age, homeworld, character_id)
-        result = execute_query(db_connection, query, data)
-        print(str(result.rowcount) + " row(s) updated")
-
-        return redirect('/browse_bsg_people')
-
-
-@webapp.route('/delete_people/<int:id>')
-def delete_people(id):
-    '''deletes a person with the given id'''
-    db_connection = connect_to_database()
-    query = "DELETE FROM bsg_people WHERE id = %s"
-    data = (id,)
-
-    result = execute_query(db_connection, query, data)
-    return (str(result.rowcount) + "row deleted")

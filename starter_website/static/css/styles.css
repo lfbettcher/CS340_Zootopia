@@ -96,6 +96,7 @@ tr input, td select {
   font-size: 16px;
   color: black;
   opacity: 1;
+  padding-left: 3px;
 }
 
 .editable {
@@ -146,4 +147,14 @@ table button {
 
 .centered-img p {
   text-align: left
+}
+
+/*allows clicking of search button with magnifying glass fa fa-search icon*/
+/*REF: https://css-tricks.com/slightly-careful-sub-elements-clickable-things/*/
+button > * {
+  pointer-events: none;
+}
+
+::placeholder {
+  font-style: italic;
 }

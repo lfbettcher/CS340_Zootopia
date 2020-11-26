@@ -45,12 +45,12 @@ CREATE TABLE `Animals` (
 INSERT INTO `Animals` (`animal_id`, `type`, `sex`, `name`, `age`, `weight`, `temperament`, `zookeeper_id`) VALUES
 (1, 'Elephant', 'M', 'Hank', 34, 1299, 'Friendly', 3),
 (2, 'Monkey', 'F', 'Sheryl', 10, 32, 'Lovely', 1),
-(3, 'Elephant', 'M', 'Hank', 34, 1289, 'Friendly', 3),
-(4, 'Zebra', 'M', 'Steve', 12, 435, 'Moody', 4),
+(3, 'Giraffe', 'M', 'Nick', 12, 788, 'Shy', 3),
+(4, 'Zebra', 'M', 'Steve', 9, 435, 'Moody', 4),
 (5, 'Lion', 'M', 'Larry', 18, 575, 'Lazy', 2),
-(6, 'Monkey', 'M', 'Steve', 3, 22, 'Energetic', 1),
-(7, 'Zebra', 'F', 'Sasha', 10, 770, 'Friendly', 4),
-(8, 'Elephant', 'F', 'Michelle', 32, 1210, 'Friendly', 4);
+(6, 'Monkey', 'M', 'Zeus', 3, 22, 'Energetic', 1),
+(7, 'Zebra', 'F', 'Sasha', 10, 770, 'Aggressive', 4),
+(8, 'Elephant', 'F', 'Michelle', 32, 1089, 'Timid', 4);
 
 -- --------------------------------------------------------
 
@@ -139,9 +139,9 @@ CREATE TABLE `Zookeepers` (
 --
 
 INSERT INTO `Zookeepers` (`zookeeper_id`, `first_name`, `last_name`) VALUES
-(1, 'Dottie', 'Duddleton'),
+(1, 'Rose', 'Nylund'),
 (2, 'Blanche', 'Devereaux'),
-(3, 'Ricky', 'Robbie'),
+(3, 'Cosmo', 'Kramer'),
 (4, 'Jemaine', 'Clement'),
 (5, 'Zoe', 'Kravitz');
 
