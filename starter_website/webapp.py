@@ -100,12 +100,13 @@ def add_animal():
 #     flash(str(result.rowcount) + " row deleted")
 #     return redirect('/animals')
 
-@webapp.route('/delete_animal/<string:id>', methods=['POST'])
-def delete_animal(id):
+@webapp.route('/delete_animal', methods=['POST'])
+def delete_animal():
     db_connection = connect_to_database()
-    print("Incoming post in delete_animal")
-    query = "DELETE FROM Animals WHERE animal_id = %s"
-    execute_query(db_connection, query, [id])
+    animal_id = request.form['animal_id']
+    delete_query = "DELETE FROM Animals WHERE animal_id = %s;"
+    data = (animal_id)
+    execute_query(db_connection, delete_query, data)
 
     flash('Animal deleted successfully!', 'success')
     return redirect('/animals')
@@ -188,10 +189,6 @@ def zookeepers():
 def search_Animals():
     db_connection = connect_to_database()
     if request.method == 'POST':
-#         request_json = request.get_json()
-#         print(request_json)
-#         searchString = request_json.get("searchString")
-
         searchString = request.form['searchString']
 #         print(searchString)
 

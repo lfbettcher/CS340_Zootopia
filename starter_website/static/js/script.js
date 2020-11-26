@@ -1,14 +1,16 @@
 // Listeners for edit buttons
 const animalTable = document.getElementById("animalTable");
 animalTable.addEventListener("click", (event) => {
-    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.tagName !== "BUTTON")
+            return;
     if (event.target.name === "Edit") {
         enableRow(event.target.parentNode.parentNode.id);
         toggleEditButton(event.target);
     }
-    if (event.target.name === "Search") {
+    if (event.target.name === "Search")
         runSearch();
-    }
+    if (event.target.name === "Delete")
+        deleteAnimal(event.target.value);   // send animal id as arg to function
 });
 
 
@@ -67,33 +69,23 @@ function disableAllInput() {
     });
 };
 
-// function runSearch() {
-//   var searchString = document.getElementById("search_inputs");
-//     var searchObject = {
-//       searchString: searchString.value
-//     };
-//
-//     console.log(searchObject);
-//     fetch(`/search`, {
-//       method: "POST",
-//       body: JSON.stringify(searchObject),
-//       headers: new Headers({
-//         "content-type": "application/json"
-//       })
-//     });
-// };
-
+// function gets string data from search bar, creates object, and posts to path shown
 function runSearch() {
     var searchString = document.getElementById("search_inputs");
     var searchedString = searchString.value;
     var searchObject = {
         searchString: searchedString
     };
-    searchString.value = searchedString;
-    searchedString.disabled = true;
     post(`/search`, searchObject);
 }
 
+// receives animal_id value, creates object and posts to path shown
+function deleteAnimal(id) {
+    var animalObject = {
+        animal_id: id
+    };
+    post(`/delete_animal`, animalObject);
+}
 
 /**
  * REF: https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit

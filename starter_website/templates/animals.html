@@ -26,7 +26,7 @@
   <colgroup span="8"></colgroup>
   <tr>
     <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" placeholder='Search Animals Table (examples: "Lion", "M", "543", etc)...' name="search" onkeypress="return event.keyCode != 13;"></th>
-    <th scope="colgroup"><button id="search_button" type="button" name="Search" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search" name="Search"></i></button></th>
+    <th scope="colgroup"><button id="search_button" type="button" name="Search" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search" name="Search" aria-hidden="true"></i></button></th>
     <th scope="colgroup"><button id="reset_search" type="button" name="reset_search" data-toggle="modal" data-target="" class="search-btn" onclick="location.href='/animals'">Reset</button></th>
   </tr>
   <tr>
@@ -70,10 +70,8 @@
 <!--    <td><button type='submit' class='delete-btn' name='Delete'>Delete</button></td>-->
 
     <td>
-      <form id="deleteAnimal" action="{{url_for('delete_animal', id=r[0])}}" method="post">
-        <input form="deleteAnimal" type="hidden" name="_method" value="DELETE">
-        <input form="deleteAnimal" type="submit" class='delete-btn' name='Delete' value="Delete">
-      </form>
+        <input type="hidden" name="delete_animal" value="{{ r[0] }}">
+        <button type="button" data-toggle="modal" data-target="#deleteanimal" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button>
     </td>
 <!-- Huber Revision End -->
   </tr>
