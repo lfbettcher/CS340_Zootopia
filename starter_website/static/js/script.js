@@ -13,7 +13,6 @@ animalTable.addEventListener("click", (event) => {
         runDelete(event, 'Animals');
 });
 
-
 const medTable = document.getElementById("medTable");
 medTable.addEventListener("click", (event) => {
     if (event.target.tagName !== "BUTTON") return;
@@ -21,6 +20,8 @@ medTable.addEventListener("click", (event) => {
         enableRow(event.target.parentNode.parentNode.id);
         toggleEditButton(event.target);
     }
+    if (event.target.name === "Delete")
+        runDelete(event, 'Medications');
 });
 
 const animalMedTable = document.getElementById("animalMedTable");
@@ -30,6 +31,30 @@ animalMedTable.addEventListener("click", (event) => {
         enableRow(event.target.parentNode.parentNode.id);
         toggleEditButton(event.target);
     }
+    if (event.target.name === "Delete")
+        runDelete(event, 'Animals_Medications');
+});
+
+const zookeeperTable = document.getElementById("zookeeperTable");
+zookeeperTable.addEventListener("click", (event) => {
+    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.name === "Edit") {
+        enableRow(event.target.parentNode.parentNode.id);
+        toggleEditButton(event.target);
+    }
+    if (event.target.name === "Delete")
+        runDelete(event, 'Zookeepers');
+});
+
+const zookeeperWorkdayTable = document.getElementById("zookeeperWorkdayTable");
+zookeeperWorkdayTable.addEventListener("click", (event) => {
+    if (event.target.tagName !== "BUTTON") return;
+    if (event.target.name === "Edit") {
+        enableRow(event.target.parentNode.parentNode.id);
+        toggleEditButton(event.target);
+    }
+    if (event.target.name === "Delete")
+        runDelete(event, 'Zookeepers_Workdays');
 });
 
 function toggleEditButton(button) {
@@ -96,13 +121,14 @@ function runDelete(event, tableName) {
         var medObject = {
             med_id: entityID
         };
-        post('/delete_medications', medObject);
+        post('/delete_medication', medObject);
     }
     if (tableName === 'Animals_Medications') {
         var animalMedObject = {
             id: entityID
         };
-        post('/delete_animals_medications', animalMedObject);
+        post('/delete_animal_medication', animalMedObject);
+
     }
     if (tableName === 'Zookeepers') {
         var zookeeperObject = {

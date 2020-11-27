@@ -120,16 +120,15 @@ def add_medication():
 #         return redirect('/animals')
 
 
-@webapp.route('/delete_medication/<string:id>', methods=['POST'])
-def delete_medication(id):
+@webapp.route('/delete_medication', methods=['POST'])
+def delete_medication():
     db_connection = connect_to_database()
-    print("Incoming post in delete_medication")
-    query = "DELETE FROM Medications WHERE med_id = %s"
-    execute_query(db_connection, query, [id])
+    med_id = request.form['med_id']
+    delete_query = "DELETE FROM Medications WHERE med_id = %s;" % med_id
+    execute_query(db_connection, delete_query)
 
     flash('Medication deleted successfully!', 'success')
     return redirect('/animals')
-
 
 @webapp.route('/add_animal_medication', methods=['POST', 'GET'])
 def add_animal_medication():
@@ -146,6 +145,15 @@ def add_animal_medication():
         flash("Animal medication added successfully!")
         return redirect('/animals')
 
+@webapp.route('/delete_animal_medication', methods=['POST'])
+def delete_animal_medication():
+    db_connection = connect_to_database()
+    id = request.form['id']
+    delete_query = "DELETE FROM Animals_Medications WHERE id = %s;" % id
+    execute_query(db_connection, delete_query)
+
+    flash("Animal's medication deleted successfully!", 'success')
+    return redirect('/animals')
 
 @webapp.route('/zookeepers')
 def zookeepers():
@@ -183,6 +191,15 @@ def add_zookeeper():
         flash("Zookeeper added successfully!")
         return redirect('/zookeepers')
 
+@webapp.route('/delete_zookeeper', methods=['POST'])
+def delete_zookeeper():
+    db_connection = connect_to_database()
+    zookeeper_id = request.form['zookeeper_id']
+    delete_query = "DELETE FROM Zookeepers WHERE zookeeper_id = %s;" % zookeeper_id
+    execute_query(db_connection, delete_query)
+
+    flash("Zookeeper deleted successfully!", 'success')
+    return redirect('/zookeepers')
 
 @webapp.route('/add_zookeeper_workday', methods=['POST'])
 def add_zookeeper_workday():
@@ -199,6 +216,15 @@ def add_zookeeper_workday():
         flash("Zookeeper Workday added successfully!")
         return redirect('/zookeepers')
 
+@webapp.route('/delete_zookeeper_workday', methods=['POST'])
+def delete_zookeeper_workday():
+    db_connection = connect_to_database()
+    id = request.form['id']
+    delete_query = "DELETE FROM Zookeepers_Workdays WHERE id = %s;" % id
+    execute_query(db_connection, delete_query)
+
+    flash("Zookeeper workday deleted successfully!", 'success')
+    return redirect('/zookeepers')
 
 @webapp.route('/search', methods=['POST'])
 def search_Animals():
