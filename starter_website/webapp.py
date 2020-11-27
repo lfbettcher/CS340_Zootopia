@@ -167,7 +167,7 @@ def zookeepers():
     result_workdays = execute_query(db_connection, query_workdays).fetchall()
     # print(result_workdays)
 
-    query_zookeepers_workdays = "SELECT Zookeepers_Workdays.zookeeper_id, first_name, last_name, Zookeepers_Workdays.workday_id, day FROM Zookeepers_Workdays INNER JOIN Zookeepers ON Zookeepers_Workdays.zookeeper_id = Zookeepers.zookeeper_id INNER JOIN Workdays ON Zookeepers_Workdays.workday_id = Workdays.workday_id ORDER BY Zookeepers_Workdays.workday_id, Zookeepers.last_name ASC;"
+    query_zookeepers_workdays = "SELECT Zookeepers_Workdays.zookeeper_id, first_name, last_name, Zookeepers_Workdays.workday_id, day, id FROM Zookeepers_Workdays INNER JOIN Zookeepers ON Zookeepers_Workdays.zookeeper_id = Zookeepers.zookeeper_id INNER JOIN Workdays ON Zookeepers_Workdays.workday_id = Workdays.workday_id ORDER BY Zookeepers_Workdays.workday_id, Zookeepers.last_name ASC;"
     result_zookeepers_workdays = execute_query(db_connection, query_zookeepers_workdays).fetchall()
     # print(result_zookeepers_workdays)
 
