@@ -1,8 +1,7 @@
-var page = window.location.pathname;
-// Listeners for edit buttons
-if (page === "/animals") {
-    const animalTable = document.getElementById("animalTable");
-    animalTable.addEventListener("click", (event) => {
+// Listeners for buttons
+const animalsTable = document.getElementById("animalsTable");
+if (animalsTable) {
+    animalsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON")
             return;
         if (event.target.name === "Edit") {
@@ -14,9 +13,11 @@ if (page === "/animals") {
         if (event.target.name === "Delete")
             runDelete(event, 'Animals');
     });
+}
 
-    const medTable = document.getElementById("medTable");
-    medTable.addEventListener("click", (event) => {
+const medsTable = document.getElementById("medsTable");
+if (medsTable) {
+    medsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
@@ -25,9 +26,11 @@ if (page === "/animals") {
         if (event.target.name === "Delete")
             runDelete(event, 'Medications');
     });
+}
 
-    const animalMedTable = document.getElementById("animalMedTable");
-    animalMedTable.addEventListener("click", (event) => {
+const animalsMedsTable = document.getElementById("animalsMedsTable");
+if (animalsMedsTable) {
+    animalsMedsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
@@ -36,11 +39,11 @@ if (page === "/animals") {
         if (event.target.name === "Delete")
             runDelete(event, 'Animals_Medications');
     });
-};
+}
 
-if (page === "/zookeepers") {
-    const zookeeperTable = document.getElementById("zookeeperTable");
-    zookeeperTable.addEventListener("click", (event) => {
+const zookeepersTable = document.getElementById("zookeepersTable");
+if (zookeepersTable) {
+    zookeepersTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
@@ -49,9 +52,11 @@ if (page === "/zookeepers") {
         if (event.target.name === "Delete")
             runDelete(event, 'Zookeepers');
     });
+}
 
-    const zookeeperWorkdayTable = document.getElementById("zookeeperWorkdayTable");
-    zookeeperWorkdayTable.addEventListener("click", (event) => {
+const zookeepersWorkdaysTable = document.getElementById("zookeepersWorkdaysTable");
+if (zookeepersWorkdaysTable) {
+    zookeepersWorkdaysTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
