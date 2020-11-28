@@ -222,6 +222,7 @@ def delete_zookeeper():
     flash("Zookeeper deleted successfully!", 'success')
     return redirect('/zookeepers')
 
+
 @webapp.route('/add_zookeeper_workday', methods=['POST'])
 def add_zookeeper_workday():
     db_connection = connect_to_database()
@@ -236,6 +237,27 @@ def add_zookeeper_workday():
 
         flash("Zookeeper Workday added successfully!")
         return redirect('/zookeepers')
+
+
+@webapp.route('/update_zookeepers_workdays', methods=['POST'])
+def update_zookeepers_workdays():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        id = request.form['id']
+        zookeeper_id = request.form['zookeeper_id']
+        workday_id = request.form['workday_id']
+
+        query = "UPDATE Zookeepers_Workdays SET zookeeper_id = %s, workday_id = %s WHERE id = %s;"
+        data = (zookeeper_id, workday_id, id)
+        result = execute_query(db_connection, query, data)
+
+        if result is None:
+            flash("Could not UPDATE")
+        else:
+            flash(f"{result.rowcount} row(s) updated")
+
+        return redirect('/zookeepers')
+
 
 @webapp.route('/delete_zookeeper_workday', methods=['POST'])
 def delete_zookeeper_workday():

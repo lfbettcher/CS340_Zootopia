@@ -57,7 +57,8 @@ if (zookeepersTable) {
 const zookeepersWorkdaysTable = document.getElementById("zookeepersWorkdaysTable");
 if (zookeepersWorkdaysTable) {
     zookeepersWorkdaysTable.addEventListener("click", (event) => {
-        if (event.target.tagName !== "BUTTON") return;
+        console.log(event.target);
+        if (event.target == null || event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
             toggleEditButton(event.target);
@@ -79,7 +80,8 @@ function enableRow(rowID) {
     let tdList = Array.from(document.getElementById(rowID).children);
     tdList.forEach((td) => {
         let element = td.firstElementChild;
-        if (element.name != "_animal_id" && element.tagName === "INPUT" || element.tagName === "SELECT") {
+        console.log(element);
+        if (element.tagName === "INPUT" || element.tagName === "SELECT") {
             element.disabled = false;
             element.className += " editable";
         }

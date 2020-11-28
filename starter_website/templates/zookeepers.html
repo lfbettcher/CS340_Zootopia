@@ -32,7 +32,7 @@
   <tr id="zookeeper{{ loop.index }}">
     <td>
       <input form="updateZookeepers" type="number" name="zookeeper_id" class="hidden" value="{{ r[0] }}" disabled="true">
-      <input type="number" name="zookeeper_id" value="{{ r[0] }}" disabled="true">
+      <input type="number" name="_zookeeper_id" value="{{ r[0] }}" disabled="true">
     </td>
     <td><input form="updateZookeepers" type="text" name="first_name" value="{{ r[1] }}" disabled="true"></td>
     <td><input form="updateZookeepers" type="text" name="last_name" value="{{ r[2] }}" disabled="true"></td>
@@ -48,6 +48,7 @@
 </form>
 
 <h3>Zookeepers Workdays (Relationship Table)</h3>
+<form id="updateZookeepersWorkdays" action="update_zookeepers_workdays" method="POST">
 <table id="zookeepersWorkdaysTable">
   <thead>
   <th style="display:none;">ID</th>
@@ -58,17 +59,32 @@
   <tbody>
   {% for r in rows_zookeepers_workdays %}
   <tr id="zookeeperWorkday{{ loop.index }}">
-    <td class="hidden"> {{ r[0] }}</td>
-    <td class="hidden"><input class="hidden" type="number" name="zookeeper_id" value="{{ r[0] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="text" name="zookeeper_name" value="{{ r[1] }} {{ r[2] }}" disabled="true"></td>
-    <td class="hidden"><input class="hidden" type="number" name="workday_id" value="{{ r[3] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="text" name="day" value="{{ r[4] }}" disabled="true"></td>
-    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>
+    <td class="hidden">
+      <input form="updateZookeepersWorkdays" class="hidden" type="number" name="id" value="{{ r[5] }}">
+    </td>
+    <td>
+      <select form="updateZookeepersWorkdays" name="zookeeper_id" style="min-width: 12em" disabled="true">
+        {% for z in rows_zookeepers %}
+        <option value="{{ z[0] }}" {{ 'selected' if z[0] == r[0] }}>{{ z[1] }} {{ z[2] }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <select form="updateZookeepersWorkdays" name="workday_id" style="min-width: 8em" disabled="true">
+        {% for w in rows_workdays %}
+        <option value="{{ w[0] }}" {{ 'selected' if w[0] == r[3] }}>{{ w[1] }}</option>
+        {% endfor %}
+      </select>
+    <td>
+      <button form="updateZookeepersWorkdays" type="submit" class="update-btn hidden" name="Save">Save</button>
+      <button type="button" class="update-btn" name="Edit">Edit</button>
+    </td>
     <td><button type="button" data-toggle="modal" data-target="#deletezookeeperworkday" class="delete-btn" name="Delete" value="{{ r[5] }}">Delete</button></td>
   </tr>
   {% endfor %}
   </tbody>
 </table>
+</form>
 
 <h3>Workdays</h3>
 <table id="workdaysTable">
