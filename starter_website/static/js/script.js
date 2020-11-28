@@ -15,9 +15,9 @@ if (animalsTable) {
     });
 }
 
-const medsTable = document.getElementById("medsTable");
-if (medsTable) {
-    medsTable.addEventListener("click", (event) => {
+const medicationsTable = document.getElementById("medicationsTable");
+if (medicationsTable) {
+    medicationsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
@@ -57,7 +57,6 @@ if (zookeepersTable) {
 const zookeepersWorkdaysTable = document.getElementById("zookeepersWorkdaysTable");
 if (zookeepersWorkdaysTable) {
     zookeepersWorkdaysTable.addEventListener("click", (event) => {
-        console.log(event.target);
         if (event.target == null || event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);
@@ -80,7 +79,6 @@ function enableRow(rowID) {
     let tdList = Array.from(document.getElementById(rowID).children);
     tdList.forEach((td) => {
         let element = td.firstElementChild;
-        console.log(element);
         if (element.tagName === "INPUT" || element.tagName === "SELECT") {
             element.disabled = false;
             element.className += " editable";

@@ -105,19 +105,24 @@ def add_medication():
         flash("Medication added successfully!")
         return redirect('/animals')
 
-# @webapp.route('/update_medication', methods=['POST'])
-# def update_medication():
-#     db_connection = connect_to_database()
-#     if request.method == 'POST'
-#         med_id = Medications.query.filter_by(id=request.form['id']).first()
-#         name = request.form['name']
-#
-#         query = 'UPDATE Medications SET name = %s WHERE med_id = %s;'
-#         data = (med_id, name)
-#         execute_query(db_connection, query, data)
-#
-#         flash("Medication updated successfully!")
-#         return redirect('/animals')
+
+@webapp.route('/update_medications', methods=['POST'])
+def update_medications():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        med_id = request.form["med_id"]
+        name = request.form['name']
+
+        query = "UPDATE Medications SET name = %s WHERE med_id = %s;"
+        data = (name, med_id)
+        result = execute_query(db_connection, query, data)
+
+        if result is None:
+            flash("Could not UPDATE")
+        else:
+            flash(f"{result.rowcount} Medication(s) updated")
+
+        return redirect('/animals')
 
 
 @webapp.route('/delete_medication', methods=['POST'])

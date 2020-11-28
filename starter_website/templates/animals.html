@@ -77,7 +77,8 @@
 </form>
 
 <h3>Medications</h3>
-<table id="medsTable">
+<form id="updateMedications" action="/update_medications" method="POST">
+<table id="medicationsTable">
   <thead>
   <th>Medication ID</th>
   <th>Name</th>
@@ -86,14 +87,21 @@
   <tbody>
   {% for r in rows_medications %}
   <tr id="med{{ loop.index }}">
-    <td><input type="number" name="med_id" value="{{ r[0] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="text" name="name" value="{{ r[1] }}" disabled="true"></td>
-    <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
+    <td>
+      <input form="updateMedications" type="number" name="med_id" class="hidden" value="{{ r[0] }}" disabled="true">
+      <input type="number" name="_med_id" value="{{ r[0] }}" disabled="true">
+    </td>
+    <td><input form="updateMedications" type="text" name="name" value="{{ r[1] }}" disabled="true"></td>
+    <td>
+      <button form="updateMedications" type="submit" class="update-btn hidden" name="Save">Save</button>
+      <button type="button" class='update-btn' name='Edit'>Edit</button>
+    </td>
     <td><button type="button" data-toggle="modal" data-target="#deletemedication" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button></td>
   </tr>
   {% endfor %}
   </tbody>
 </table>
+</form>
 
 <h3>Animal Medications (Relationship Table)</h3>
 <table id="animalsMedsTable">

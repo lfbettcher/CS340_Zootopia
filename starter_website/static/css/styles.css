@@ -97,13 +97,14 @@ tr input, td select {
   color: black;
   opacity: 1;
   padding-left: 3px;
+  border: 0;
 }
 
 .editable {
   color: red;
 }
 
-tr input:not([type="numver"]):not([type="submit"]) {
+tr input:not([type="number"]):not([type="submit"]) {
   min-width: 6em;
 }
 

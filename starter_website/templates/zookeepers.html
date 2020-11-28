@@ -60,7 +60,7 @@
   {% for r in rows_zookeepers_workdays %}
   <tr id="zookeeperWorkday{{ loop.index }}">
     <td class="hidden">
-      <input form="updateZookeepersWorkdays" class="hidden" type="number" name="id" value="{{ r[5] }}">
+      <input form="updateZookeepersWorkdays" class="hidden" type="number" name="id" value="{{ r[5] }}" disabled="true">
     </td>
     <td>
       <select form="updateZookeepersWorkdays" name="zookeeper_id" style="min-width: 12em" disabled="true">
