@@ -191,6 +191,27 @@ def add_zookeeper():
         flash("Zookeeper added successfully!")
         return redirect('/zookeepers')
 
+
+@webapp.route('/update_zookeepers', methods=['POST'])
+def update_zookeepers():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        zookeeper_id = request.form['zookeeper_id']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+
+        query = "UPDATE Zookeepers SET first_name = %s, last_name = %s WHERE zookeeper_id = %s;"
+        data = (first_name, last_name, zookeeper_id)
+        result = execute_query(db_connection, query, data)
+
+        if result is None:
+            flash("Could not UPDATE")
+        else:
+            flash(f"{result.rowcount} row(s) updated")
+
+        return redirect('/zookeepers')
+
+
 @webapp.route('/delete_zookeeper', methods=['POST'])
 def delete_zookeeper():
     db_connection = connect_to_database()

@@ -90,7 +90,6 @@ function disableRow(rowID) {
     // disable inputs when save button is clicked
     let tdList = Array.from(document.getElementById(rowID).children);
     tdList.forEach((td) => {
-        // console.log(td.firstChild.tagName);
         if (td.firstChild.tagName === "INPUT") {
             td.firstChild.disabled = true;
         }
@@ -124,7 +123,6 @@ function runDelete(event, tableName) {
         var animalObject = {
             animal_id: entityID
         };
-        console.log(animalObject);
         post('/delete_animal', animalObject);
     }
     if (tableName === 'Medications') {
@@ -138,7 +136,6 @@ function runDelete(event, tableName) {
             id: entityID
         };
         post('/delete_animal_medication', animalMedObject);
-
     }
     if (tableName === 'Zookeepers') {
         var zookeeperObject = {
@@ -183,45 +180,3 @@ function post(path, params, method = 'post') {
     document.body.appendChild(form);
     form.submit();
 }
-
-// function onUpdate(event, id) {
-//   let payload = { id: id };
-//   let inputs = document.querySelectorAll(
-//     `[id='${id}'] input:not([type=submit]):not([type=radio]),
-//               [id='${id}'] input[type=radio]:checked`
-//   );
-//   inputs.forEach((input) => {
-//     payload[input.name] = input.value;
-//   });
-//   $.ajax({
-//     type: "POST",
-//     contentType: "application/json",
-//     url: "/test_table/update,
-//     traditional: "true",
-//     data: JSON.stringify(payload),
-//     dataType: "json"
-//   });
-//   // makeRequest("PUT", payload, baseURL);
-//   event.preventDefault();
-// }
-//
-// function makeRequest(type, payload, url) {
-//   let req = new XMLHttpRequest();
-//   req.open(type, url, true);
-//   req.setRequestHeader("Content-Type", "application/json");
-//   req.addEventListener("load", () => {
-//     if (req.status >= 200 && req.status < 400) {
-//       let response = JSON.parse(req.responseText);
-//       deleteTable();
-//       makeTable(response);
-//     } else {
-//       console.log("Error: " + req.statusText);
-//     }
-//   });
-//   req.send(JSON.stringify(payload));
-// }
-//
-// document.getElementById("reset-table").addEventListener("click", (event) => {
-//   makeRequest("GET", null, baseURL + "reset-table");
-//   event.preventDefault();
-// });
