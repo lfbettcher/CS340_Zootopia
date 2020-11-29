@@ -65,9 +65,9 @@ def update_animal():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE")
+            flash("Could not UPDATE Animals")
         else:
-            flash(f"{result.rowcount} row(s) updated")
+            flash(f"{result.rowcount} Animal(s) updated")
 
         return redirect('/animals')
 
@@ -132,7 +132,7 @@ def update_medications():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE")
+            flash("Could not UPDATE Medications")
         else:
             flash(f"{result.rowcount} Medication(s) updated")
 
@@ -179,9 +179,9 @@ def update_animals_medications():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE")
+            flash("Could not UPDATE Animals Medications")
         else:
-            flash(f"{result.rowcount} Animals Medication(s) updated")
+            flash(f"{result.rowcount} Animals Medications updated")
 
         return redirect('/animals')
 
@@ -253,9 +253,9 @@ def update_zookeepers():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE")
+            flash("Could not UPDATE Zookeeper")
         else:
-            flash(f"{result.rowcount} row(s) updated")
+            flash(f"{result.rowcount} Zookeeper(s) updated")
 
         return redirect('/zookeepers')
 
@@ -300,9 +300,9 @@ def update_zookeepers_workdays():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE")
+            flash("Could not UPDATE Zookeepers Workdays")
         else:
-            flash(f"{result.rowcount} row(s) updated")
+            flash(f"{result.rowcount} Zookeepers Workdays updated")
 
         return redirect('/zookeepers')
 

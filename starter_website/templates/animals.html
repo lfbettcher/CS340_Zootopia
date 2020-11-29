@@ -38,7 +38,7 @@
     <th scope="col">Weight (lbs)</th>
     <th scope="col">Temperament</th>
     <th scope="col">Zookeeper</th>
-    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
+    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button></th>
   </tr>
   </thead>
   <tbody>
@@ -62,10 +62,10 @@
       </select>
     </td>
     <td>
-      <button form="updateAnimal" type="submit" class="update-btn hidden" name="Save">Save</button>
-      <button form="updateAnimal" type="button" class="update-btn" name="Edit">Edit</button>
+      <button form="updateAnimal" type="submit" class="update-btn hidden" name="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></button>
+      <button form="updateAnimal" type="button" class="update-btn" name="Edit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
     </td>
-    <td><button type="button" data-toggle="modal" data-target="#deleteanimal" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button></td>
+    <td><button type="button" data-toggle="modal" data-target="#deleteanimal" class="delete-btn" name="Delete" value="{{ r[0] }}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></td>
   </tr>
   {% endfor %}
   </tbody>
@@ -99,7 +99,7 @@
 </table>
 </form>
 
-<h3>Animal Medications (Relationship Table)</h3>
+<h3>Animal Medications</h3>
 <form id="updateAnimalsMedications" action="update_animals_medications" method="POST">
 <table id="animalsMedicationsTable">
   <thead>
@@ -155,13 +155,7 @@
         <form action="/add_animal" method="POST">
           <div class="form-group">
             <label for="type">Type:</label>
-            <select class="form-control" id="type" name="type">
-              <option value="Elephant">Elephant</option>
-              <option value="Giraffe">Giraffe</option>
-              <option value="Lion">Lion</option>
-              <option value="Monkey">Monkey</option>
-              <option value="Zebra">Zebra</option>
-            </select>
+            <input type="text" class="form-control" id="type" name="type" required="1">
           </div>
           <div class="form-group">
             <label for="sex">Sex:</label>

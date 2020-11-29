@@ -68,7 +68,7 @@ if (zookeepersWorkdaysTable) {
 }
 
 function toggleEditButton(button) {
-    if (button.textContent === "Edit") {
+    if (button.name === "Edit") {
         button.className = "update-btn hidden";
         button.previousElementSibling.className = "update-btn";
     }

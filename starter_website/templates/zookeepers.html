@@ -47,7 +47,7 @@
 </table>
 </form>
 
-<h3>Zookeepers Workdays (Relationship Table)</h3>
+<h3>Zookeepers Workdays</h3>
 <form id="updateZookeepersWorkdays" action="update_zookeepers_workdays" method="POST">
 <table id="zookeepersWorkdaysTable">
   <thead>
@@ -60,10 +60,10 @@
   {% for r in rows_zookeepers_workdays %}
   <tr id="zookeeperWorkday{{ loop.index }}">
     <td class="hidden">
-      <input form="updateZookeepersWorkdays" class="hidden" type="number" name="id" value="{{ r[5] }}" disabled="true">
+      <input form="updateZookeepersWorkdays" class="hidden" type="number" name="id" value="{{ r[5] }}">
     </td>
     <td>
-      <select form="updateZookeepersWorkdays" name="zookeeper_id" style="min-width: 12em" disabled="true">
+      <select form="updateZookeepersWorkdays" name="zookeeper_id" style="min-width: 13em" disabled="true">
         {% for z in rows_zookeepers %}
         <option value="{{ z[0] }}" {{ 'selected' if z[0] == r[0] }}>{{ z[1] }} {{ z[2] }}</option>
         {% endfor %}
@@ -91,15 +91,12 @@
   <thead>
   <th>Workday ID</th>
   <th>Day</th>
-<!--  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addworkday" class="add-btn" name="Add" value="Add">Add</button></th>-->
   </thead>
   <tbody>
   {% for r in rows_workdays %}
   <tr id="workday{{ loop.index }}">
     <td><input type="number" name="workday_id" value="{{ r[0] }}" style="min-width: 2em"  disabled="true"></td>
     <td><input type="text" name="day" value="{{ r[1] }}" disabled="true"></td>
-<!--    <td><button type="submit" class="update-btn" name="Edit">Edit</button></td>-->
-<!--    <td><button type="submit" class="delete-btn" name="Delete" value='Delete'>Delete</button></td>-->
   </tr>
   {% endfor %}
   </tbody>
@@ -165,34 +162,6 @@
           </div>
           <div class="form-group">
             <button class="update-btn" type="submit">Add Zookeeper Workday</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="delete-btn" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Modal Add Workdays-->
-<div class="modal fade" id="addworkday" tabindex="-1" role="dialog" aria-labelledby="addworkdayModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addworkdayModalLongTitle">Add Zookeeper Workday</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="" method="POST">
-          <div class="form-group">
-            <label>Day:</label>
-            <input type="text" class="form-control" name="day" required="1">
-          </div>
-          <div class="form-group">
-            <button class="update-btn" type="submit">Add Workday</button>
           </div>
         </form>
       </div>
