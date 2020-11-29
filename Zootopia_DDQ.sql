@@ -50,7 +50,7 @@ INSERT INTO `Animals` (`animal_id`, `type`, `sex`, `name`, `age`, `weight`, `tem
 (5, 'Lion', 'M', 'Larry', 18, 575, 'Lazy', 2),
 (6, 'Monkey', 'M', 'Zeus', 3, 22, 'Energetic', 1),
 (7, 'Zebra', 'F', 'Sasha', 10, 770, 'Aggressive', 4),
-(8, 'Elephant', 'F', 'Michelle', 32, 1089, 'Timid', 4);
+(8, 'Elephant', 'F', 'Michelle', 32, 1089, 'Timid', NULL);
 
 -- --------------------------------------------------------
 

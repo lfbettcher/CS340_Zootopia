@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<div class="centered-img" style="width: 80px">
+  <img width="100%" src="{{ url_for('static', filename= 'img/favicon.png') }}">
+</div>
 <h1>Zootopia Management System</h1>
-<h4>This is the homepage</h4>
+<h4>Welcome!</h4>
+<p id="overview">Zootopia is home to animals consisting of lions, zebras, giraffes, elephants, and monkeys. There are 5 Zookeepers who help maintain the zoo 7 days a week. This site is a detailed management system to track inventory of Animals, Medications, and Zookeeper Assignments and Schedules. The Zootopia Management Website carries out these functions through the implementation of 5 entity tables within a MariaDB database. The website allows the staff to easily update items as they change which ensures the welfare of the Zoo’s Animals</p>
 <div class="centered-img" style="width: 800px">
   <img width="100%" src="{{ url_for('static', filename= 'img/giraffe-zebra.jpg') }}">
   <p><small>Image credit: Nikolay Tchaouchev @nxn Unsplash</small></p>
