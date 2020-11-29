@@ -22,10 +22,12 @@
 <form id="updateZookeepers" action="/update_zookeepers" method="POST">
 <table id="zookeepersTable">
   <thead>
-  <th>Zookeeper ID</th>
-  <th>First Name</th>
-  <th>Last Name</th>
-  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeper" class="add-btn" name="Add" value="Add">Add</button></th>
+  <tr>
+    <th>Zookeeper ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeper" class="add-btn" name="Add" value="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button></th>
+  </tr>
   </thead>
   <tbody>
   {% for r in rows_zookeepers %}
@@ -37,10 +39,10 @@
     <td><input form="updateZookeepers" type="text" name="first_name" value="{{ r[1] }}" disabled="true"></td>
     <td><input form="updateZookeepers" type="text" name="last_name" value="{{ r[2] }}" disabled="true"></td>
     <td>
-      <button form="updateZookeepers" type="submit" class="update-btn hidden" name="Save">Save</button>
-      <button type="button" class="update-btn" name="Edit">Edit</button>
+      <button form="updateZookeepers" type="submit" class="update-btn hidden" name="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></button>
+      <button type="button" class="update-btn" name="Edit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
     </td>
-    <td><button type="button" data-toggle="modal" data-target="#deletezookeeper" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button></td>
+    <td><button type="button" data-toggle="modal" data-target="#deletezookeeper" class="delete-btn" name="Delete" value="{{ r[0] }}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></td>
   </tr>
   {% endfor %}
   </tbody>
@@ -51,10 +53,12 @@
 <form id="updateZookeepersWorkdays" action="update_zookeepers_workdays" method="POST">
 <table id="zookeepersWorkdaysTable">
   <thead>
-  <th style="display:none;">ID</th>
-  <th>Zookeeper</th>
-  <th>Workday</th>
-  <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeperworkday" class="add-btn" name="Add" value="Add">Add</button></th>
+  <tr>
+    <th style="display:none;">ID</th>
+    <th>Zookeeper</th>
+    <th>Workday</th>
+    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addzookeeperworkday" class="add-btn" name="Add" value="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button></th>
+  </tr>
   </thead>
   <tbody>
   {% for r in rows_zookeepers_workdays %}
@@ -76,10 +80,10 @@
         {% endfor %}
       </select>
     <td>
-      <button form="updateZookeepersWorkdays" type="submit" class="update-btn hidden" name="Save">Save</button>
-      <button type="button" class="update-btn" name="Edit">Edit</button>
+      <button form="updateZookeepersWorkdays" type="submit" class="update-btn hidden" name="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></button>
+      <button type="button" class="update-btn" name="Edit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
     </td>
-    <td><button type="button" data-toggle="modal" data-target="#deletezookeeperworkday" class="delete-btn" name="Delete" value="{{ r[5] }}">Delete</button></td>
+    <td><button type="button" data-toggle="modal" data-target="#deletezookeeperworkday" class="delete-btn" name="Delete" value="{{ r[5] }}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></td>
   </tr>
   {% endfor %}
   </tbody>
@@ -89,8 +93,10 @@
 <h3>Workdays</h3>
 <table id="workdaysTable">
   <thead>
-  <th>Workday ID</th>
-  <th>Day</th>
+  <tr>
+    <th>Workday ID</th>
+    <th>Day</th>
+  </tr>
   </thead>
   <tbody>
   {% for r in rows_workdays %}
