@@ -53,6 +53,7 @@
     <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"       class="width8"></td>
     <td>
       <select form="updateAnimal" name="zookeeper_id" disabled="true" class="width9">
+        <option value="NULL">NULL</option>
         {% for z in rows_zookeepers %}
         <option value="{{ z[0] }}" {{ 'selected' if r[7] == z[2] }}>{{ z[2] }}</option>
         {% endfor %}

@@ -35,7 +35,7 @@ CREATE TABLE `Animals` (
   `age` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
   `temperament` varchar(255) DEFAULT NULL,
-  `zookeeper_id` int(11) NOT NULL
+  `zookeeper_id` int(11) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -182,8 +182,7 @@ INSERT INTO `Zookeepers_Workdays` (`id`, `zookeeper_id`, `workday_id`) VALUES
 --
 ALTER TABLE `Animals`
   ADD PRIMARY KEY (`animal_id`),
-  ADD UNIQUE KEY `animal_id` (`animal_id`),
-  ADD KEY `Animals_FK1` (`zookeeper_id`);
+  ADD UNIQUE KEY `animal_id` (`animal_id`);
 
 --
 -- Indexes for table `Animals_Medications`
@@ -272,7 +271,7 @@ ALTER TABLE `Zookeepers_Workdays`
 -- Constraints for table `Animals`
 --
 ALTER TABLE `Animals`
-  ADD CONSTRAINT `Animals_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `Animals_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Animals_Medications`

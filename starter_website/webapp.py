@@ -16,11 +16,11 @@ def animals():
     print("Fetching and rendering Animals web page")
     db_connection = connect_to_database()
     query_animals = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals " \
-                    "INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
+                    "LEFT JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
                     "ORDER BY animal_id ASC;"
 
     result_animals = execute_query(db_connection, query_animals).fetchall()
-    # print(result_animals)
+    print(result_animals)
 
     query_medications = "SELECT med_id, name FROM Medications;"
     result_medications = execute_query(db_connection, query_medications).fetchall()
@@ -57,6 +57,10 @@ def update_animal():
         weight = request.form['weight']
         temperament = request.form['temperament']
         zookeeper_id = request.form['zookeeper_id']
+        print("zookeeper_id = " + zookeeper_id)
+
+        if zookeeper_id == 'NULL':
+            zookeeper_id = None
 
         query = "UPDATE Animals " \
                 "SET type = %s, sex = %s, name = %s, age = %s, weight = %s, temperament = %s, zookeeper_id = %s " \
