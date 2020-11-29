@@ -28,9 +28,9 @@ if (medicationsTable) {
     });
 }
 
-const animalsMedsTable = document.getElementById("animalsMedsTable");
-if (animalsMedsTable) {
-    animalsMedsTable.addEventListener("click", (event) => {
+const animalsMedicationsTable = document.getElementById("animalsMedicationsTable");
+if (animalsMedicationsTable) {
+    animalsMedicationsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON") return;
         if (event.target.name === "Edit") {
             enableRow(event.target.parentNode.parentNode.id);

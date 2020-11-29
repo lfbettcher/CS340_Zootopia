@@ -97,11 +97,19 @@ tr input, td select {
   color: black;
   opacity: 1;
   padding-left: 3px;
-  border: 0;
 }
 
-.editable {
+tr input:not(.editable), td select:not(.editable) {
+  border: 0;
+  background: none;
+}
+
+td .editable {
   color: red;
+}
+
+th .editable {
+  color: black;
 }
 
 tr input:not([type="number"]):not([type="submit"]) {
@@ -116,6 +124,7 @@ table button {
   width: 4em;
   color: black;
   font-size: 15px;
+  border-radius: 4px;
 }
 
 .update-btn {

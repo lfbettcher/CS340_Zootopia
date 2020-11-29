@@ -25,7 +25,7 @@
   <col>
   <colgroup span="8"></colgroup>
   <tr>
-    <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" placeholder='Search Animals Table (examples: "Lion", "M", "543", etc)...' name="search" onkeypress="return event.keyCode != 13;"></th>
+    <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" class="editable" placeholder='Search Animals Table (examples: Lion, M, 543, etc)...' name="search" onkeypress="return event.keyCode != 13;"></th>
     <th scope="colgroup"><button id="search_button" type="button" name="Search" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search" name="Search" aria-hidden="true"></i></button></th>
     <th scope="colgroup"><button id="reset_search" type="button" name="reset_search" data-toggle="modal" data-target="" class="search-btn" onclick="location.href='/animals'">Reset</button></th>
   </tr>
@@ -37,7 +37,7 @@
     <th scope="col">Age (yrs)</th>
     <th scope="col">Weight (lbs)</th>
     <th scope="col">Temperament</th>
-    <th scope="col">*Zookeeper</th>
+    <th scope="col">Zookeeper</th>
     <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add">Add</button></th>
   </tr>
   </thead>
@@ -54,7 +54,6 @@
     <td><input form="updateAnimal" type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
     <td><input form="updateAnimal" type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
     <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
-<!--    <td><input form="updateAnimal" type="text" name="last_name" value="{{ r[7] }}" disabled="true"></td>-->
     <td>
       <select form="updateAnimal" name="zookeeper_id" style="min-width: 7em" disabled="true">
         {% for z in rows_zookeepers %}
@@ -69,9 +68,6 @@
     <td><button type="button" data-toggle="modal" data-target="#deleteanimal" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button></td>
   </tr>
   {% endfor %}
-  <tr>
-    <td colspan="10"><i>* NOTE: each animal has only one Zookeeper assigned to them.</i></td>
-  </tr>
   </tbody>
 </table>
 </form>
@@ -104,7 +100,8 @@
 </form>
 
 <h3>Animal Medications (Relationship Table)</h3>
-<table id="animalsMedsTable">
+<form id="updateAnimalsMedications" action="update_animals_medications" method="POST">
+<table id="animalsMedicationsTable">
   <thead>
   <th style="display:none;">ID</th>
   <th>Animal Name</th>
@@ -112,12 +109,29 @@
   <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimalmedication" class="add-btn" name="Add" value="Add">Add</button></th>
   </thead>
   <tbody>
-  {% for r in rows_animals_meds %}
+  {% for r in rows_animals_medications %}
   <tr id="animalMed{{ loop.index }}">
-    <td style="display:none;"> {{ r[0] }}</td>
-    <td><input type="text" name="Animals.name" value="{{ r[1] }}" style="min-width: 2em" disabled="true"></td>
-    <td><input type="text" name="Medications.name" value="{{ r[2] }}" style="min-width: 2em" disabled="true"></td>
-    <td><button type="submit" class='update-btn' name='Edit'>Edit</button></td>
+    <td class="hidden">
+      <input form="updateAnimalsMedications" class="hidden" type="number" name="id" value="{{ r[0] }}" disabled="true">
+    </td>
+    <td>
+      <select form="updateAnimalsMedications" name="animal_id" disabled="true">
+        {% for a in rows_animals %}
+        <option value="{{ a[0] }}" {{ 'selected' if a[0] == r[1] }}>{{ a[3] }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <select form="updateAnimalsMedications" name="med_id" disabled="true">
+        {% for m in rows_medications %}
+        <option value="{{ m[0] }}" {{ 'selected' if m[0] == r[2] }}>{{ m[1] }}</option>
+        {% endfor %}
+      </select>
+    </td>
+    <td>
+      <button form="updateAnimalsMedications" type="submit" class="update-btn hidden" name="Save">Save</button>
+      <button type="button" class='update-btn' name='Edit'>Edit</button>
+    </td>
     <td>
       <button type="button" data-toggle="modal" data-target="#deleteanimalmedication" class="delete-btn" name="Delete" value="{{ r[0] }}">Delete</button>
     </td>
@@ -125,6 +139,7 @@
   {% endfor %}
   </tbody>
 </table>
+</form>
 
 <!--Modal Add Animal-->
 <div class="modal fade" id="addanimal" tabindex="-1" role="dialog" aria-labelledby="addanimalModalCenterTitle" aria-hidden="true">
