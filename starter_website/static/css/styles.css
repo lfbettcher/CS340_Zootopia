@@ -99,9 +99,20 @@ tr input, td select {
   padding-left: 3px;
 }
 
-tr input:not(.editable), td select:not(.editable) {
+/* hide number input and select arrows when not editable */
+tr input:not(.editable),
+td select:not(.editable),
+input:not(.editable)::-webkit-outer-spin-button,
+input:not(.editable)::-webkit-inner-spin-button {
   border: 0;
   background: none;
+  -webkit-appearance: none;
+  -webkit-text-fill-color: black;
+}
+
+/* hide number input arrows when not editable Firefox */
+tr input:not(.editable) {
+  -moz-appearance: textfield;
 }
 
 td .editable {
@@ -112,13 +123,6 @@ th .editable {
   color: black;
 }
 
-/*tr input:not([type="number"]):not([type="submit"]) {*/
-/*  min-width: 6em;*/
-/*}*/
-
-/*tr input[type="number"] {*/
-/*  min-width: 4em;*/
-/*}*/
 button {
   border-radius: 4px;
 }
