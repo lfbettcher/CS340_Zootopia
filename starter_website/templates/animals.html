@@ -3,7 +3,6 @@
 
 {% block title %}Animals{% endblock %}
 {% block content %}
-
 <!-- confirmation message when table is edited -->
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -20,24 +19,22 @@
 
 <h3>Animals</h3>
 <form id="updateAnimal" action="/update_animal" method="POST">
-<table id="animalsTable">
+<table id="animalsTable" style="table-layout: fixed">
   <thead>
-  <col>
-  <colgroup span="8"></colgroup>
   <tr>
     <th colspan="8" scope="colgroup"><input type="text" id="search_inputs" class="editable" placeholder='Search Animals Table (examples: Lion, M, 543, etc)...' name="search" onkeypress="return event.keyCode != 13;"></th>
     <th scope="colgroup"><button id="search_button" type="button" name="Search" data-toggle="modal" data-target="" class="search-btn"><i class="fa fa-search" name="Search" aria-hidden="true"></i></button></th>
     <th scope="colgroup"><button id="reset_search" type="button" name="reset_search" data-toggle="modal" data-target="" class="search-btn" onclick="location.href='/animals'">Reset</button></th>
   </tr>
   <tr>
-    <th scope="col">Animal ID</th>
-    <th scope="col">Type</th>
-    <th scope="col">Sex</th>
-    <th scope="col">Name</th>
-    <th scope="col">Age (yrs)</th>
-    <th scope="col">Weight (lbs)</th>
-    <th scope="col">Temperament</th>
-    <th scope="col">Zookeeper</th>
+    <th scope="col" class="width6">Animal ID</th>
+    <th scope="col" class="width8">Type</th>
+    <th scope="col" class="width3">Sex</th>
+    <th scope="col" class="width7">Name</th>
+    <th scope="col" class="width6">Age (yrs)</th>
+    <th scope="col" class="width7">Weight (lbs)</th>
+    <th scope="col" class="width8">Temperament</th>
+    <th scope="col" class="width9">Zookeeper</th>
     <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimal" class="add-btn" name="Add" value="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button></th>
   </tr>
   </thead>
@@ -46,16 +43,16 @@
   <tr id="animal{{ loop.index }}">
     <td>
       <input form="updateAnimal" type="number" name="animal_id" class="hidden" value="{{ r[0] }}" disabled="true">
-      <input type="number" name="_animal_id" value="{{ r[0] }}" disabled="true">
+      <input type="number" name="_animal_id" value="{{ r[0] }}" disabled="true"                            class="width6">
     </td>
-    <td><input form="updateAnimal" type="text" name="type" value="{{ r[1] }}" disabled="true"></td>
-    <td><input form="updateAnimal" type="text" name="sex" value="{{ r[2] }}" maxlength="1" style="min-width: 1em" disabled="true"></td>
-    <td><input form="updateAnimal" type="text" name="name" value="{{ r[3] }}" disabled="true"></td>
-    <td><input form="updateAnimal" type="number" name="age" value="{{ r[4] }}" disabled="true"></td>
-    <td><input form="updateAnimal" type="number" name="weight" value="{{ r[5] }}" disabled="true"></td>
-    <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"></td>
+    <td><input form="updateAnimal" type="text" name="type" value="{{ r[1] }}" disabled="true"              class="width8"></td>
+    <td><input form="updateAnimal" type="text" name="sex" value="{{ r[2] }}" disabled="true" maxlength="1" class="width1"></td>
+    <td><input form="updateAnimal" type="text" name="name" value="{{ r[3] }}" disabled="true"              class="width7"></td>
+    <td><input form="updateAnimal" type="number" name="age" value="{{ r[4] }}" disabled="true"             class="width6"></td>
+    <td><input form="updateAnimal" type="number" name="weight" value="{{ r[5] }}" disabled="true"          class="width7"></td>
+    <td><input form="updateAnimal" type="text" name="temperament" value="{{ r[6] }}" disabled="true"       class="width8"></td>
     <td>
-      <select form="updateAnimal" name="zookeeper_id" style="min-width: 7em" disabled="true">
+      <select form="updateAnimal" name="zookeeper_id" disabled="true" class="width9">
         {% for z in rows_zookeepers %}
         <option value="{{ z[0] }}" {{ 'selected' if r[7] == z[2] }}>{{ z[2] }}</option>
         {% endfor %}
@@ -108,7 +105,7 @@
   <th>Medication Name</th>
   <th colspan="2"><button type="button" data-toggle="modal" data-target="#addanimalmedication" class="add-btn" name="Add" value="Add">Add</button></th>
   </thead>
-  <tbody>
+  <tbody id="animalsTableBody">
   {% for r in rows_animals_medications %}
   <tr id="animalMed{{ loop.index }}">
     <td class="hidden">
@@ -265,5 +262,44 @@
     </div>
   </div>
 </div>
-
+<script>
+    // dynamically load Animals table for Search
+    let zookeepers = {{ json_zookeepers | safe }};
+    let search_input = document.querySelector("#search_inputs");
+    search_input.addEventListener('keyup', function() {
+        $.get('/search_animals?search=' + search_input.value, function(search_results) {
+            document.querySelector('#animalsTable tbody').innerHTML = "";
+            let html = '';
+            index = 1;
+            search_results.forEach((result) => {
+                html += '<tr id="animal' + index + '">'
+                    + '<td>'
+                    + '<input form="updateAnimal" type="number" name="animal_id" class="hidden" value="' + result[0] + '" disabled="true">'
+                    + '<input type="number" name="_animal_id" value="' + result[0] + '" disabled="true" class="width6">'
+                    + '</td>'
+                    + '<td><input form="updateAnimal" type="text" name="type" value="' + result[1] + '" disabled="true" class="width8"></td>'
+                    + '<td><input form="updateAnimal" type="text" name="sex" value="' + result[2] + '" disabled="true" maxlength="1" class="width1"></td>'
+                    + '<td><input form="updateAnimal" type="text" name="name" value="' + result[3] + '" disabled="true" class="width7"></td>'
+                    + '<td><input form="updateAnimal" type="number" name="age" value="' + result[4] + '" disabled="true" class="width6"></td>'
+                    + '<td><input form="updateAnimal" type="number" name="weight" value="' + result[5] + '" disabled="true" class="width7"></td>'
+                    + '<td><input form="updateAnimal" type="text" name="temperament" value="' + result[6] + '" disabled="true" class="width8"></td>'
+                    + '<td>'
+                    + '<select form="updateAnimal" name="zookeeper_id" disabled="true" class="width9">';
+                zookeepers.forEach(z => {
+                    let is_selected = z[2] == result[7] ? 'selected' : '';
+                    html += '<option value="' + z[0] + '"' + is_selected + '>' + z[2] + '</option>';
+                });
+                html += '</select></td>';
+                html += '<td>'
+                    + '<button form="updateAnimal" type="submit" class="update-btn hidden" name="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></button>'
+                    + '<button form="updateAnimal" type="button" class="update-btn" name="Edit"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>'
+                    + '</td>'
+                    + '<td><button type="button" data-toggle="modal" data-target="#deleteanimal" class="delete-btn" name="Delete" value="' + result[0] + '"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></td>'
+                    + '</td></tr>';
+                index++;
+            });
+            document.querySelector('#animalsTable tbody').innerHTML = html;
+        });
+    });
+</script>
 {% endblock %}

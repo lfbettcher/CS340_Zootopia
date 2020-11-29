@@ -1,6 +1,17 @@
 // Listeners for buttons
 const animalsTable = document.getElementById("animalsTable");
 if (animalsTable) {
+    // fixed width for search
+    let width = animalsTable.getBoundingClientRect().width;
+    // animalsTable.style.minWidth = width + "px";
+    // animalsTable.style.maxWidth = width + "px";
+    let searchBox = document.getElementById("search_inputs");
+    if (searchBox) {
+        let boxWidth = searchBox.getBoundingClientRect().width;
+        searchBox.style.minWidth = boxWidth + "px";
+        searchBox.style.maxWidth = boxWidth + "px";
+    }
+    // buttons
     animalsTable.addEventListener("click", (event) => {
         if (event.target.tagName !== "BUTTON")
             return;

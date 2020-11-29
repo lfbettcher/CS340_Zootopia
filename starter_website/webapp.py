@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask import request, redirect, flash, jsonify
+from flask import request, redirect, flash, jsonify, json
 from db_connector.db_connector import connect_to_database, execute_query
 # create the web application
 webapp = Flask(__name__)
@@ -41,7 +41,8 @@ def animals():
                            rows_animals=result_animals,
                            rows_medications=result_medications,
                            rows_animals_medications=result_animals_medications,
-                           rows_zookeepers=result_zookeepers)
+                           rows_zookeepers=result_zookeepers,
+                           json_zookeepers=json.dumps(result_zookeepers))
 
 
 @webapp.route('/update_animal', methods=['POST'])
@@ -316,6 +317,25 @@ def delete_zookeeper_workday():
 
     flash("Zookeeper workday deleted successfully!", 'success')
     return redirect('/zookeepers')
+
+
+@webapp.route('/search_animals')
+def search_animals():
+    db_connection = connect_to_database()
+    search_string = "%" + request.args.get("search") + "%"
+    search_query = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals " \
+                   "INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
+                   "WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s " \
+                   "OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR last_name LIKE %s;"
+    data = (
+        [search_string], [search_string], [search_string], [search_string],
+        [search_string], [search_string], [search_string], [search_string],
+    )
+
+    if search_string:
+        search_results = execute_query(db_connection, search_query, data).fetchall()
+
+    return jsonify(search_results)
 
 
 @webapp.route('/search', methods=['POST'])
