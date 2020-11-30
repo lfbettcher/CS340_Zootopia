@@ -18,6 +18,7 @@
 
 body {
   background: var(--offwhite);
+  padding-bottom: 100px;
 }
 
 /* nav bar */
@@ -169,6 +170,7 @@ table button {
 #favicon {
   border-radius: 50%;
 }
+
 /*allows clicking of button with icon*/
 /*REF: https://css-tricks.com/slightly-careful-sub-elements-clickable-things/*/
 button > * {
@@ -198,12 +200,14 @@ button > * {
   color: var(--brown);
 }
 
+/*flash colors:*/
 #error {
   color: var(--red);
   background-color: #ffe6e6;
   border-color: #ffcccc;
 }
 
+/*flash colors:*/
 #success {
   color: var(--green-med);
 }
