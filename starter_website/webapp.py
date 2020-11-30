@@ -57,7 +57,6 @@ def update_animal():
         weight = request.form['weight']
         temperament = request.form['temperament']
         zookeeper_id = request.form['zookeeper_id']
-        print("zookeeper_id = " + zookeeper_id)
 
         if zookeeper_id == 'NULL':
             zookeeper_id = None
@@ -88,6 +87,9 @@ def add_animal():
         weight = request.form['weight']
         temperament = request.form['temperament']
         zookeeper_id = request.form['zookeeper_id']
+
+        if zookeeper_id == 'NULL':
+            zookeeper_id = None
 
         query = "INSERT INTO Animals (type, sex, name, age, weight, temperament, zookeeper_id) " \
                 "VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -142,7 +144,6 @@ def update_medications():
             flash(f"{result.rowcount} Medication(s) updated", 'success')
 
         return redirect('/animals')
-
 
 @webapp.route('/delete_medication', methods=['POST'])
 def delete_medication():
