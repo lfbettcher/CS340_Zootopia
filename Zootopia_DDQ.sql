@@ -1,293 +1,208 @@
--- phpMyAdmin SQL Dump
--- version 5.0.4
--- https://www.phpmyadmin.net/
+-- Project Group 4: Aaron Huber and Lisa Bettcher
+-- Date:            11/28/2020
+-- Project:         Zootopia Management System
+-- File Contents:   Database DDQ
+
+--------------------------------------------------------------------------------
+-- The following section contains the Database DDQ for the Zootopia project
+-- website. This info was gathered by performing a database dump from MariaDB
+-- for the following tables in our project: Animals, Medications,
+-- Animals_Medications, Zookeepers, Workdays, and Zookeepers_Workdays.
+--------------------------------------------------------------------------------
+
+-- MariaDB dump 10.17  Distrib 10.4.11-MariaDB, for Linux (x86_64)
 --
--- Host: localhost
--- Generation Time: Nov 24, 2020 at 05:38 AM
--- Server version: 10.4.15-MariaDB-log
--- PHP Version: 7.4.11
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: classmysql.engr.oregonstate.edu    Database: cs340_huberaa
+-- ------------------------------------------------------
+-- Server version	10.4.15-MariaDB-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `cs340_huberaa`
---
-
--- --------------------------------------------------------
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `Animals`
 --
 
+DROP TABLE IF EXISTS `Animals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Animals` (
-  `animal_id` int(11) NOT NULL,
+  `animal_id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   `sex` varchar(1) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
   `temperament` varchar(255) DEFAULT NULL,
-  `zookeeper_id` int(11) NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `zookeeper_id` int(11) NULL,
+  PRIMARY KEY (`animal_id`),
+  UNIQUE KEY `animal_id` (`animal_id`),
+  KEY `Animals_FK1` (`zookeeper_id`),
+  CONSTRAINT `Animals_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Animals`
 --
 
-INSERT INTO `Animals` (`animal_id`, `type`, `sex`, `name`, `age`, `weight`, `temperament`, `zookeeper_id`) VALUES
-(1, 'Elephant', 'M', 'Hank', 34, 1299, 'Friendly', 3),
-(2, 'Monkey', 'F', 'Sheryl', 10, 32, 'Lovely', 1),
-(3, 'Giraffe', 'M', 'Nick', 12, 788, 'Shy', 3),
-(4, 'Zebra', 'M', 'Steve', 9, 435, 'Moody', 4),
-(5, 'Lion', 'M', 'Larry', 18, 575, 'Lazy', 2),
-(6, 'Monkey', 'M', 'Zeus', 3, 22, 'Energetic', 1),
-(7, 'Zebra', 'F', 'Sasha', 10, 770, 'Aggressive', 4),
-(8, 'Elephant', 'F', 'Michelle', 32, 1089, 'Timid', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Animals_Medications`
---
-
-CREATE TABLE `Animals_Medications` (
-  `id` int(11) NOT NULL,
-  `animal_id` int(11) DEFAULT NULL,
-  `med_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Animals_Medications`
---
-
-INSERT INTO `Animals_Medications` (`id`, `animal_id`, `med_id`) VALUES
-(1, 1, 3),
-(3, 2, 1),
-(4, 2, 2),
-(5, 5, 7);
-
--- --------------------------------------------------------
+LOCK TABLES `Animals` WRITE;
+/*!40000 ALTER TABLE `Animals` DISABLE KEYS */;
+INSERT INTO `Animals` VALUES (1,'Lion','F','Lucy',4,510.30,'Bitey',2),(2,'Monkey','F','Sheryl',10,32.21,'Lovely',1),(3,'Elephant','M','Hank',34,1289.34,'Friendly',3),(4,'Zebra','M','Steve',12,435.87,'Moody',4),(5,'Lion','M','Larry',18,575.98,'Lazy',2),(6,'Monkey','M','Steve',3,22.34,'Energetic',1),(7,'Zebra','F','Sasha',10,770.23,'Friendly', NULL);
+/*!40000 ALTER TABLE `Animals` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `Medications`
 --
 
+DROP TABLE IF EXISTS `Medications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Medications` (
-  `med_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `med_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`med_id`),
+  UNIQUE KEY `med_id` (`med_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Medications`
 --
 
-INSERT INTO `Medications` (`med_id`, `name`) VALUES
-(1, 'Penicillin'),
-(2, 'Xanax'),
-(3, 'Insulin'),
-(4, 'Antiparasitic'),
-(5, 'Steroid'),
-(6, 'Opiod'),
-(7, 'Catnip');
-
--- --------------------------------------------------------
+LOCK TABLES `Medications` WRITE;
+/*!40000 ALTER TABLE `Medications` DISABLE KEYS */;
+INSERT INTO `Medications` VALUES (1,'Penicillin'),(2,'Xanax'),(3,'Insulin'),(4,'Antiparasitic'),(5,'Steroid'),(6,'Opiod');
+/*!40000 ALTER TABLE `Medications` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Table structure for table `Workdays`
+-- Table structure for table `Animals_Medications`
 --
 
-CREATE TABLE `Workdays` (
-  `workday_id` int(11) NOT NULL,
-  `day` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `Animals_Medications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Animals_Medications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `animal_id` int(11) DEFAULT NULL,
+  `med_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `Animals_Medications_FK1` (`animal_id`),
+  KEY `Animals_Medications_FK2` (`med_id`),
+  CONSTRAINT `Animals_Medications_FK1` FOREIGN KEY (`animal_id`) REFERENCES `Animals` (`animal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Animals_Medications_FK2` FOREIGN KEY (`med_id`) REFERENCES `Medications` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Workdays`
+-- Dumping data for table `Animals_Medications`
 --
 
-INSERT INTO `Workdays` (`workday_id`, `day`) VALUES
-(1, 'Sunday'),
-(2, 'Monday'),
-(3, 'Tuesday'),
-(4, 'Wednesday'),
-(5, 'Thursday'),
-(6, 'Friday'),
-(7, 'Saturday');
-
--- --------------------------------------------------------
+LOCK TABLES `Animals_Medications` WRITE;
+/*!40000 ALTER TABLE `Animals_Medications` DISABLE KEYS */;
+INSERT INTO `Animals_Medications` VALUES (1,1,3),(3,2,1),(4,2,2);
+/*!40000 ALTER TABLE `Animals_Medications` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `Zookeepers`
 --
 
+DROP TABLE IF EXISTS `Zookeepers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Zookeepers` (
-  `zookeeper_id` int(11) NOT NULL,
+  `zookeeper_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `last_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`zookeeper_id`),
+  UNIQUE KEY `zookeeper_id` (`zookeeper_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Zookeepers`
 --
 
-INSERT INTO `Zookeepers` (`zookeeper_id`, `first_name`, `last_name`) VALUES
-(1, 'Rose', 'Nylund'),
-(2, 'Blanche', 'Devereaux'),
-(3, 'Cosmo', 'Kramer'),
-(4, 'Jemaine', 'Clement'),
-(5, 'Zoe', 'Kravitz');
+LOCK TABLES `Zookeepers` WRITE;
+/*!40000 ALTER TABLE `Zookeepers` DISABLE KEYS */;
+INSERT INTO `Zookeepers` VALUES (1,'Rose','Nylund'),(2,'Blanche','Devereaux'),(3,'Cosmo','Kramer'),(4,'Jemaine','Clement'),(5,'Zoe','Kravitz');
+/*!40000 ALTER TABLE `Zookeepers` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `Workdays`
+--
+
+DROP TABLE IF EXISTS `Workdays`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Workdays` (
+  `workday_id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` varchar(255) NOT NULL,
+  PRIMARY KEY (`workday_id`),
+  UNIQUE KEY `workday_id` (`workday_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Workdays`
+--
+
+LOCK TABLES `Workdays` WRITE;
+/*!40000 ALTER TABLE `Workdays` DISABLE KEYS */;
+INSERT INTO `Workdays` VALUES (1,'Sunday'),(2,'Monday'),(3,'Tuesday'),(4,'Wednesday'),(5,'Thursday'),(6,'Friday'),(7,'Saturday');
+/*!40000 ALTER TABLE `Workdays` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `Zookeepers_Workdays`
 --
 
+DROP TABLE IF EXISTS `Zookeepers_Workdays`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Zookeepers_Workdays` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `zookeeper_id` int(11) NOT NULL,
-  `workday_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `workday_id` int(11) NOT NULL,
+  PRIMARY KEY (`zookeeper_id`,`workday_id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `Zookeepers_Workdays_FK1` (`zookeeper_id`),
+  KEY `Zookeepers_Workdays_FK2` (`workday_id`),
+  CONSTRAINT `Zookeepers_Workdays_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Zookeepers_Workdays_FK2` FOREIGN KEY (`workday_id`) REFERENCES `Workdays` (`workday_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Zookeepers_Workdays`
 --
 
-INSERT INTO `Zookeepers_Workdays` (`id`, `zookeeper_id`, `workday_id`) VALUES
-(1, 1, 2),
-(2, 1, 4),
-(3, 1, 6),
-(4, 2, 1),
-(5, 2, 2),
-(6, 2, 3),
-(7, 2, 4),
-(8, 2, 5),
-(9, 2, 6),
-(10, 2, 7);
+LOCK TABLES `Zookeepers_Workdays` WRITE;
+/*!40000 ALTER TABLE `Zookeepers_Workdays` DISABLE KEYS */;
+INSERT INTO `Zookeepers_Workdays` VALUES (1,1,2),(2,1,4),(3,1,6),(4,2,1),(5,2,2),(6,2,3),(7,2,4),(8,2,5),(9,2,6),(10,2,7);
+/*!40000 ALTER TABLE `Zookeepers_Workdays` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `Animals`
---
-ALTER TABLE `Animals`
-  ADD PRIMARY KEY (`animal_id`),
-  ADD UNIQUE KEY `animal_id` (`animal_id`);
-
---
--- Indexes for table `Animals_Medications`
---
-ALTER TABLE `Animals_Medications`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `Animals_Medications_FK1` (`animal_id`),
-  ADD KEY `Animals_Medications_FK2` (`med_id`);
-
---
--- Indexes for table `Medications`
---
-ALTER TABLE `Medications`
-  ADD PRIMARY KEY (`med_id`),
-  ADD UNIQUE KEY `med_id` (`med_id`);
-
---
--- Indexes for table `Workdays`
---
-ALTER TABLE `Workdays`
-  ADD PRIMARY KEY (`workday_id`),
-  ADD UNIQUE KEY `workday_id` (`workday_id`);
-
---
--- Indexes for table `Zookeepers`
---
-ALTER TABLE `Zookeepers`
-  ADD PRIMARY KEY (`zookeeper_id`),
-  ADD UNIQUE KEY `zookeeper_id` (`zookeeper_id`);
-
---
--- Indexes for table `Zookeepers_Workdays`
---
-ALTER TABLE `Zookeepers_Workdays`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `Zookeepers_Workdays_FK1` (`zookeeper_id`),
-  ADD KEY `Zookeepers_Workdays_FK2` (`workday_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `Animals`
---
-ALTER TABLE `Animals`
-  MODIFY `animal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `Animals_Medications`
---
-ALTER TABLE `Animals_Medications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `Medications`
---
-ALTER TABLE `Medications`
-  MODIFY `med_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `Workdays`
---
-ALTER TABLE `Workdays`
-  MODIFY `workday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `Zookeepers`
---
-ALTER TABLE `Zookeepers`
-  MODIFY `zookeeper_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `Zookeepers_Workdays`
---
-ALTER TABLE `Zookeepers_Workdays`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `Animals`
---
-ALTER TABLE `Animals`
-  ADD CONSTRAINT `Animals_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `Animals_Medications`
---
-ALTER TABLE `Animals_Medications`
-  ADD CONSTRAINT `Animals_Medications_FK1` FOREIGN KEY (`animal_id`) REFERENCES `Animals` (`animal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Animals_Medications_FK2` FOREIGN KEY (`med_id`) REFERENCES `Medications` (`med_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `Zookeepers_Workdays`
---
-ALTER TABLE `Zookeepers_Workdays`
-  ADD CONSTRAINT `Zookeepers_Workdays_FK1` FOREIGN KEY (`zookeeper_id`) REFERENCES `Zookeepers` (`zookeeper_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `Zookeepers_Workdays_FK2` FOREIGN KEY (`workday_id`) REFERENCES `Workdays` (`workday_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-11-12 22:13:34

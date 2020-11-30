@@ -163,9 +163,12 @@ table button {
 }
 
 .centered-img p {
-  text-align: left
+  text-align: left;
 }
 
+#favicon {
+  border-radius: 50%;
+}
 /*allows clicking of button with icon*/
 /*REF: https://css-tricks.com/slightly-careful-sub-elements-clickable-things/*/
 button > * {
@@ -192,5 +195,15 @@ button > * {
   margin: auto auto auto auto;
   padding-bottom: 15px;
   width: 700px;
-  color: var(--brown)
+  color: var(--brown);
+}
+
+#error {
+  color: var(--red);
+  background-color: #ffe6e6;
+  border-color: #ffcccc;
+}
+
+#success {
+  color: var(--green-med);
 }
