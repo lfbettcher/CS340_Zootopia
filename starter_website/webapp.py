@@ -70,7 +70,7 @@ def update_animal():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE Animals", 'error')
+            flash("Could not update animal!", 'error')
         else:
             flash(f"{result.rowcount} Animal(s) updated", 'success')
 
@@ -137,7 +137,7 @@ def update_medications():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash('Could not update medications', 'error')
+            flash('Could not update medication!', 'error')
         else:
             flash(f"{result.rowcount} Medication(s) updated", 'success')
 
@@ -184,7 +184,7 @@ def update_animals_medications():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash('Could not update Animals Medications', 'error')
+            flash("Could not update animal's medications!", 'error')
         else:
             flash(f"{result.rowcount} Animals Medications updated", "success")
 
@@ -258,7 +258,7 @@ def update_zookeepers():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not update zookeeper", 'error')
+            flash("Could not update zookeeper!", 'error')
         else:
             flash(f"{result.rowcount} Zookeeper(s) updated", 'success')
 
@@ -292,7 +292,7 @@ def add_zookeeper_workday():
             flash("Zookeeper workday added successfully!", 'success')
 
         except:
-            flash("Zookeeper workday not added - ensure no duplicate entries!", 'error')
+            flash("Zookeeper workday not added - no duplicate or NULL entries!", 'error')
 
         return redirect('/zookeepers')
 
@@ -309,7 +309,7 @@ def update_zookeepers_workdays():
         result = execute_query(db_connection, query, data)
 
         if result is None:
-            flash("Could not UPDATE Zookeepers Workdays", 'error')
+            flash("Could not update zookeeper's workdays", 'error')
         else:
             flash(f"{result.rowcount} Zookeepers Workdays updated", 'success')
 
@@ -378,7 +378,7 @@ def search_Animals():
 #         print(result_zookeepers)
 
         if not result_search:
-            flash("No results found!", 'error')
+            flash("Error: No results found or no input received!", 'error')
             return redirect('/animals')
 
         return render_template('animals.html',
