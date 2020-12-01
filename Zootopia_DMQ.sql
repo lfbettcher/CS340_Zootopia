@@ -14,13 +14,18 @@
 -- -- -- -- -- -- -- -- Populate Tables -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
 -- Populate Animals Table:
-SELECT animal_id, type, sex, name, age, weight, temperament, zookeeper_id FROM Animals;
+SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals
+       LEFT JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id
+       ORDER BY animal_id ASC;
 
 -- Populate Medications Table:
 SELECT med_id, name FROM Medications;
 
 -- Populate Animals_Medications Table:
-SELECT id, animal_id, med_id FROM Animals_Medications;
+SELECT id, Animals_Medications.animal_id, Animals_Medications.med_id
+       FROM Animals_Medications
+       INNER JOIN Animals ON Animals_Medications.animal_id = Animals.animal_id
+       INNER JOIN Medications ON Animals_Medications.med_id = Medications.med_id;
 
 -- Populate Zookeepers Table:
 SELECT zookeeper_id, first_name, last_name FROM Zookeepers;
@@ -29,7 +34,12 @@ SELECT zookeeper_id, first_name, last_name FROM Zookeepers;
 SELECT workday_id, day FROM Workdays;
 
 -- Populate Zookeepers_Workdays Table:
-SELECT id, zookeeper_id, workday_id FROM Zookeepers_Workdays;
+SELECT Zookeepers_Workdays.zookeeper_id, first_name, last_name,
+       Zookeepers_Workdays.workday_id, day, id
+       FROM Zookeepers_Workdays
+       INNER JOIN Zookeepers ON Zookeepers_Workdays.zookeeper_id = Zookeepers.zookeeper_id
+       INNER JOIN Workdays ON Zookeepers_Workdays.workday_id = Workdays.workday_id
+       ORDER BY Zookeepers_Workdays.workday_id, Zookeepers.last_name ASC;
 
 -- -- -- -- -- -- -- -- Add Table Rows -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -63,7 +73,7 @@ UPDATE Medications SET name = %s WHERE med_id = %s;
 
 -- Update an Animals_Medications Relationship Row:
 -- NOTE: cannot simultaneously update animal_id and med_id
-UPDATE Animals_Medications SET med_id = %s WHERE animal_id = %s AND med_id = %s;
+UPDATE Animals_Medications SET animal_id = %s, med_id = %s WHERE id = %s;
 
 -- Update a Zookeepers Row:
 UPDATE Zookeepers SET first_name = %s, last_name = %s WHERE zookeeper_id= %s;

@@ -277,7 +277,8 @@
                     + '<td><input form="updateAnimal" type="number" name="weight" value="' + result[5] + '" disabled="true" class="width7"></td>'
                     + '<td><input form="updateAnimal" type="text" name="temperament" value="' + result[6] + '" disabled="true" class="width8"></td>'
                     + '<td>'
-                    + '<select form="updateAnimal" name="zookeeper_id" disabled="true" class="width9">';
+                    + '<select form="updateAnimal" name="zookeeper_id" disabled="true" class="width9">'
+                    + '<option value="NULL">NULL</option>';
                 zookeepers.forEach(z => {
                     let is_selected = z[2] == result[7] ? 'selected' : '';
                     html += '<option value="' + z[0] + '"' + is_selected + '>' + z[2] + '</option>';

@@ -333,9 +333,9 @@ def search_animals():
     db_connection = connect_to_database()
     search_string = "%" + request.args.get("search") + "%"
     search_query = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals " \
-                   "INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
+                   "LEFT JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
                    "WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s " \
-                   "OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR last_name LIKE %s;"
+                   "OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR IFNULL(last_name, 'NULL') LIKE %s;"
     data = (
         [search_string], [search_string], [search_string], [search_string],
         [search_string], [search_string], [search_string], [search_string],
@@ -351,13 +351,13 @@ def search_animals():
 def search_Animals():
     db_connection = connect_to_database()
     if request.method == 'POST':
-        searchString = request.form['searchString']
+        searchString = "%" + request.form['searchString'] + "%"
 #         print(searchString)
 
         search_query = "SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals " \
-                       "INNER JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
-                       "WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s " \
-                       "OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR last_name LIKE %s;"
+                                          "LEFT JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id " \
+                                          "WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s " \
+                                          "OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR IFNULL(last_name, 'NULL') LIKE %s;"
 
         data = ([searchString], [searchString], [searchString], [searchString], [searchString], [searchString], [searchString], [searchString], )
         result_search = execute_query(db_connection, search_query, data).fetchall()
@@ -379,7 +379,7 @@ def search_Animals():
 #         print(result_zookeepers)
 
         if not result_search:
-            flash("Error: No results found or no input received!", 'error')
+            flash("Error: No results found!", 'error')
             return redirect('/animals')
 
         return render_template('animals.html',
