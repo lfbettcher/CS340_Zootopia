@@ -72,7 +72,6 @@ UPDATE Animals SET animal_id = %s, type = %s, sex = %s, name = %s, age = %s, wei
 UPDATE Medications SET name = %s WHERE med_id = %s;
 
 -- Update an Animals_Medications Relationship Row:
--- NOTE: cannot simultaneously update animal_id and med_id
 UPDATE Animals_Medications SET animal_id = %s, med_id = %s WHERE id = %s;
 
 -- Update a Zookeepers Row:
@@ -102,12 +101,7 @@ DELETE FROM Zookeepers_Workdays WHERE zookeeper_id = %s AND workday_id = %s;
 -- The following Animals query will return any full rows that contain search
 -- string. NOTE: to perform this search in MariaDB replace '%s' below with a
 -- string:
-SELECT * FROM Animals WHERE
-    animal_id LIKE %s OR
-    type LIKE %s OR
-    sex LIKE %s OR
-    name LIKE %s OR
-    age LIKE %s OR
-    weight LIKE %s OR
-    temperament LIKE %s OR
-    zookeeper_id LIKE %s;
+SELECT animal_id, type, sex, name, age, weight, temperament, last_name FROM Animals
+       LEFT JOIN Zookeepers ON Animals.zookeeper_id = Zookeepers.zookeeper_id
+       WHERE animal_id LIKE %s OR type LIKE %s OR sex LIKE %s OR name LIKE %s
+       OR age LIKE %s OR weight LIKE %s OR temperament LIKE %s OR IFNULL(last_name, 'NULL') LIKE %s;
