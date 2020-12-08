@@ -78,6 +78,19 @@ if (zookeepersWorkdaysTable) {
     });
 }
 
+const workdaysTable = document.getElementById("workdaysTable");
+if (workdaysTable) {
+    workdaysTable.addEventListener("click", (event) => {
+        if (event.target.tagName !== "BUTTON") return;
+        if (event.target.name === "Edit") {
+            enableRow(event.target.parentNode.parentNode.id);
+            toggleEditButton(event.target);
+        }
+        if (event.target.name === "Delete")
+            runDelete(event, 'Workdays');
+    });
+}
+
 function toggleEditButton(button) {
     if (button.name === "Edit") {
         button.className = "update-btn hidden";
@@ -159,6 +172,12 @@ function runDelete(event, tableName) {
             id: entityID
         };
         post('/delete_zookeeper_workday', zookeeperWorkdayObject);
+    }
+    if (tableName === 'Workdays') {
+        var workdayObject = {
+            workday_id: entityID
+        };
+        post('/delete_workday', workdayObject);
     }
 }
 

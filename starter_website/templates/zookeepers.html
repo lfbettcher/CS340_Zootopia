@@ -77,22 +77,33 @@
 </form>
 
 <h3>Workdays</h3>
+<form id="updateWorkdays" action="/update_workdays" method="POST">
 <table id="workdaysTable">
   <thead>
   <tr>
     <th>Workday ID</th>
     <th>Day</th>
+    <th colspan="2"><button type="button" data-toggle="modal" data-target="#addworkday" class="add-btn" name="Add" value="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button></th>
   </tr>
   </thead>
   <tbody>
   {% for r in rows_workdays %}
   <tr id="workday{{ loop.index }}">
-    <td><input type="number" name="workday_id" value="{{ r[0] }}" style="min-width: 2em"  disabled="true"></td>
-    <td><input type="text" name="day" value="{{ r[1] }}" disabled="true"></td>
+    <td>
+      <input form="updateWorkdays" type="number" name="workday_id" value="{{ r[0] }}" class="hidden" disabled="true">
+      <input type="text" name="_workday_id" value="{{ r[0] }}" disabled="true">
+    </td>
+    <td><input form="updateWorkdays" type="text" name="workday_name" value="{{ r[1] }}" disabled="true"></td>
+    <td>
+      <button form="updateWorkdays" type="submit" class="update-btn hidden" name="Save"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i></button>
+      <button type="button" class='update-btn' name='Edit'><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></button>
+    </td>
+    <td><button type="button" data-toggle="modal" data-target="#deleteworkday" class="delete-btn" name="Delete" value="{{ r[0] }}"><i class="fa fa-trash fa-lg" aria-hidden="true"></i></button></td>
   </tr>
   {% endfor %}
   </tbody>
 </table>
+</form>
 
 <!--Modal Add Zookeeper-->
 <div class="modal fade" id="addzookeeper" tabindex="-1" role="dialog" aria-labelledby="addzookeeperModalCenterTitle" aria-hidden="true">
@@ -154,6 +165,34 @@
           </div>
           <div class="form-group">
             <button class="update-btn" type="submit">Add Zookeeper Workday</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="delete-btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Modal Add Workday-->
+<div class="modal fade" id="addworkday" tabindex="-1" role="dialog" aria-labelledby="addworkdayModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addworkdayModalLongTitle">Add Workday</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/add_workday" method="POST">
+          <div class="form-group">
+            <label for="workday_name">Workday:</label>
+            <input type="text" class="form-control" id="workday_name" name="workday_name" required="1">
+          </div>
+          <div class="form-group">
+            <button class="update-btn" type="submit">Add Workday</button>
           </div>
         </form>
       </div>

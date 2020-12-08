@@ -11,6 +11,7 @@ def index():
     return render_template('index.html')
 
 
+# ANIMALS
 @webapp.route('/animals')
 def animals():
     print("Fetching and rendering Animals web page")
@@ -112,6 +113,7 @@ def delete_animal():
     return redirect('/animals')
 
 
+# MEDICATIONS
 @webapp.route('/add_medication', methods=['POST', 'GET'])
 def add_medication():
     db_connection = connect_to_database()
@@ -145,6 +147,7 @@ def update_medications():
 
         return redirect('/animals')
 
+
 @webapp.route('/delete_medication', methods=['POST'])
 def delete_medication():
     db_connection = connect_to_database()
@@ -156,6 +159,7 @@ def delete_medication():
     return redirect('/animals')
 
 
+# ANIMALS MEDICATIONS
 @webapp.route('/add_animal_medication', methods=['POST', 'GET'])
 def add_animal_medication():
     db_connection = connect_to_database()
@@ -203,6 +207,7 @@ def delete_animal_medication():
     return redirect('/animals')
 
 
+# ZOOKEEPERS
 @webapp.route('/zookeepers')
 def zookeepers():
     # print("Fetching and rendering Zookeepers web page")
@@ -277,6 +282,7 @@ def delete_zookeeper():
     return redirect('/zookeepers')
 
 
+# ZOOKEEPERS WORKDAYS
 @webapp.route('/add_zookeeper_workday', methods=['POST'])
 def add_zookeeper_workday():
     db_connection = connect_to_database()
@@ -296,6 +302,7 @@ def add_zookeeper_workday():
             flash("Zookeeper workday not added - no duplicate or NULL entries!", 'error')
 
         return redirect('/zookeepers')
+
 
 @webapp.route('/update_zookeepers_workdays', methods=['POST'])
 def update_zookeepers_workdays():
@@ -328,6 +335,54 @@ def delete_zookeeper_workday():
     return redirect('/zookeepers')
 
 
+# WORKDAYS
+@webapp.route('/add_workday', methods=['POST', 'GET'])
+def add_workday():
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        workday_id = 'DEFAULT'
+        workday_name = request.form['workday_name']
+
+        query = "INSERT INTO Workdays (workday_id, day) VALUES (%s, %s)"
+        data = (workday_id, workday_name)
+        execute_query(db_connection, query, data)
+
+        flash('Workday added successfully!', 'success')
+        return redirect('/zookeepers')
+
+
+@webapp.route('/update_workdays', methods=['POST'])
+def update_workdays():
+    print("in update")
+    db_connection = connect_to_database()
+    if request.method == 'POST':
+        workday_id = request.form["workday_id"]
+        workday_name = request.form['workday_name']
+
+        query = "UPDATE Workdays SET day = %s WHERE workday_id = %s;"
+        data = (workday_name, workday_id)
+        result = execute_query(db_connection, query, data)
+
+        if result is None:
+            flash('Could not update workday!', 'error')
+        else:
+            flash(f"{result.rowcount} Workday(s) updated", 'success')
+
+        return redirect('/zookeepers')
+
+
+@webapp.route('/delete_workday', methods=['POST'])
+def delete_workday():
+    db_connection = connect_to_database()
+    workday_id = request.form['workday_id']
+    delete_query = "DELETE FROM Workdays WHERE workday_id = %s;" % workday_id
+    execute_query(db_connection, delete_query)
+
+    flash('Workday deleted successfully!', 'success')
+    return redirect('/zookeepers')
+
+
+# SEARCH
 @webapp.route('/search_animals')
 def search_animals():
     db_connection = connect_to_database()
