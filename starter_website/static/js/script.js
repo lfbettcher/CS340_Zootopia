@@ -2,9 +2,6 @@
 const animalsTable = document.getElementById("animalsTable");
 if (animalsTable) {
     // fixed width for search
-    let width = animalsTable.getBoundingClientRect().width;
-    // animalsTable.style.minWidth = width + "px";
-    // animalsTable.style.maxWidth = width + "px";
     let searchBox = document.getElementById("search_inputs");
     if (searchBox) {
         let boxWidth = searchBox.getBoundingClientRect().width;
@@ -98,8 +95,8 @@ function toggleEditButton(button) {
     }
 };
 
+// enable inputs when edit button is clicked
 function enableRow(rowID) {
-    // enable inputs when edit button is clicked
     let tdList = Array.from(document.getElementById(rowID).children);
     tdList.forEach((td) => {
         let element = td.firstElementChild;
@@ -110,8 +107,8 @@ function enableRow(rowID) {
     });
 };
 
+// disable inputs when save button is clicked
 function disableRow(rowID) {
-    // disable inputs when save button is clicked
     let tdList = Array.from(document.getElementById(rowID).children);
     tdList.forEach((td) => {
         if (td.firstChild.tagName === "INPUT") {
@@ -120,8 +117,8 @@ function disableRow(rowID) {
     });
 };
 
+// disable inputs in table until update button is clicked
 function disableAllInput() {
-    // disable inputs in table until update button is clicked
     document.querySelectorAll("tbody input").forEach((input) => {
         input.disabled = true;
     });
